@@ -1,34 +1,39 @@
 var scene, camera, renderer, mesh;
 var meshFloor;
 var keyboard = {};
-var player = { heigth:1.8, speed:0.2 };
+var player = { heigth:1.8, speed:0.1 };
 
 function init() {
+   
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(90, 1280/720, 0.1, 1000)
-
-    mesh = new THREE.Mesh(
-        new THREE.BoxGeometry(1,1,1),
-        new THREE.MeshBasicMaterial({wireframe:true})
-    );
-
-    scene.add(mesh);
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
     meshFloor = new THREE.Mesh(
-        new THREE.PlaneGeometry(25,50,25,50),
+        new THREE.PlaneGeometry(50,50,50,50),
         new THREE.MeshBasicMaterial({wireframe: true})
     );
+
+
+const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+const material = new THREE.MeshBasicMaterial( {color: 0x000000, wireframe: false} );
+const mesh = new THREE.Mesh( geometry, material );
+scene.add( mesh );
+const edges = new THREE.EdgesGeometry( geometry );
+const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
+scene.add( line );
+
     meshFloor.rotation.x -= Math.PI / 2; 
     scene.add(meshFloor);
 
     camera.position.set(0, player.heigth, -5)
     camera.lookAt(new THREE.Vector3(0, player.heigth, 0));
 
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(1280,720);
+    renderer = new THREE.WebGLRenderer( {alpha : false} );
+    renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild(renderer.domElement);
 
     animate();
+    
 
 
 }
@@ -73,7 +78,9 @@ function KeyUp(event) {
 }
 
 
+
 window.addEventListener('keydown', KeyDown);
 window.addEventListener('keyup', KeyUp);
+
 
 window.onload = init;
