@@ -6,4 +6,10 @@ body {
 #button1{
 position: absolute;
 }
+h1 {
+    padding-right: 50%;
+    padding-left: 50%;
+    padding-top: 50%;
+    padding-bottom: 50%;
+}
 
