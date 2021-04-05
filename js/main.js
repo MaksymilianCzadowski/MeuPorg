@@ -1,113 +1,83 @@
-var scene, camera, renderer, mesh;
-var meshFloor;
-var keyboard = {};
-var player = { heigth:1.8, speed:0.1, turnSpeed:Math.PI*0.005 };
+//INIT TRHEEJS
+var scene = new THREE.Scene();
+var cam = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+var renderer = new THREE.WebGLRenderer({antialias: true});
+scene.background = new THREE.Color(0xfafafa);
+renderer.setSize(innerWidth, innerHeight);
+cam.position.z = 5;
+cam.position.y = 0;
+document.body.appendChild(renderer.domElement);
+var directionalLigths = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
+directionalLigths.position.set(0,1,0);
+directionalLigths.castShadow = true;
+scene.add(directionalLigths);
+var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+//INIT THREEJS
+
+let grid = new THREE.GridHelper(100,20, 0x0a0a0a, 0x0a0a0a);
+grid.position.set(0, -0.5, 0);
+scene.add(grid);
+
+let bGeo = new THREE.BoxGeometry(1, 1, 1);
+let bMat = new THREE.MeshStandardMaterial({color: 0x00ff00, wireframe: false});
+let cube = new THREE.Mesh(bGeo,bMat);
+scene.add(cube);
+
+let controls = new THREE.PointerLockControls(cam, renderer.domElement);
+let clock = new THREE.Clock();
+
+let btn1 = document.querySelector("#button1");
+btn1.addEventListener('click', ()=>{
+    controls.lock();
+});
+
+controls.addEventListener('lock',()=>{
+    btn1.innerHTML = "Locked"
+});
+controls.addEventListener('unlock',()=>{
+    btn1.innerHTML = "Unlocked"
+});
+
+let keyboard = [];
+addEventListener('keydown',(e)=>{
+ keyboard[e.key] = true
+});
+addEventListener('keyup',(e)=>{
+ keyboard[e.key] = false
+});
 
 
-function init() {
-   
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+function processKeyboard(delta){
+    let speed = 5;
+    let actualSpeed = speed * delta
+    if (keyboard['z']){
+        controls.moveForward(actualSpeed);
+    }
+    if(keyboard['s']){
+        controls.moveForward(-actualSpeed);
+    }
+    if(keyboard[' ']){
+        controls.getObject().position.y += actualSpeed;
+    }
+    if(keyboard['c']){
+        controls.getObject().position.y -= actualSpeed;
+    }
 
-    meshFloor = new THREE.Mesh(
-        new THREE.PlaneGeometry(50,50,50,50),
-        new THREE.MeshBasicMaterial({wireframe: true})
-    );
-
-    const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    mesh = new THREE.Mesh(
-        new THREE.BoxGeometry(1,1,1), // width, height, depth
-        new THREE.MeshBasicMaterial({color:0xff4444, wireframe:false}) // Color is given in hexadecimal RGB
-    // 0xff0000 is pure red, 0x00ff00 is pure green, and 0x0000ff is pure blue.
-    // white would be 0xffffff and black would be 0x000000.
-    );
-    mesh.position.y += 1;
-
-    const edges = new THREE.EdgesGeometry( geometry );
-    const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
-    line.position.y += 1
-    scene.add( line );
-    scene.add( mesh );
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-mesh = new THREE.Mesh(
-    new THREE.BoxGeometry(1,1,1), // width, height, depth
-    new THREE.MeshBasicMaterial({color:0xff4444, wireframe:false}) // Color is given in hexadecimal RGB
-    // 0xff0000 is pure red, 0x00ff00 is pure green, and 0x0000ff is pure blue.
-    // white would be 0xffffff and black would be 0x000000.
-);
-mesh.position.y += 1;
-
-scene.add( mesh );
-const edges = new THREE.EdgesGeometry( geometry );
-const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
-line.position.y += 1
-scene.add( line );
-
-    meshFloor.rotation.x -= Math.PI / 2; 
-    scene.add(meshFloor);
-
-    camera.position.set(0, player.heigth, -5)
-    camera.lookAt(new THREE.Vector3(0, player.heigth, 0));
-
-    renderer = new THREE.WebGLRenderer( {alpha : false} );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild(renderer.domElement);
-
-
-
-    animate();
-    
-
-
-}
-function animate() {
-    requestAnimationFrame(animate)
-
-
-    if(keyboard[90]){ // W key
-		camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
-		camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
-	}
-	if(keyboard[83]){ // S key
-		camera.position.x += Math.sin(camera.rotation.y) * player.speed;
-		camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
-	}
-	if(keyboard[81]){ // A key
-		// Redirect motion by 90 degrees
-		camera.position.x += Math.sin(camera.rotation.y + Math.PI/2) * player.speed;
-		camera.position.z += -Math.cos(camera.rotation.y + Math.PI/2) * player.speed;
-	}
-	if(keyboard[68]){ // D key
-		camera.position.x += Math.sin(camera.rotation.y - Math.PI/2) * player.speed;
-		camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed;
-	}
-    if(keyboard[37]){ // left arrow key
-		camera.rotation.y -= player.turnSpeed;
-	}
-	if(keyboard[39]){ // right arrow key
-		camera.rotation.y += player.turnSpeed;
-	}
-
-    renderer.render(scene, camera)
-    
-}
-
-function KeyDown(event) {
-    
-    keyboard[event.keyCode] = true;
-
-
-}
-
-function KeyUp(event) {
-    
-    keyboard[event.keyCode] = false ;
-
+    if (keyboard['q']){
+        controls.moveRight(-actualSpeed);
+    }
+    if(keyboard['d']){
+        controls.moveRight(actualSpeed);
+    }
 }
 
 
-window.addEventListener('keydown', KeyDown);
-window.addEventListener('keyup', KeyUp);
+function drawScene(){
+    renderer.render(scene,cam);
+    let delta = clock.getDelta();
+    processKeyboard(delta);
+    requestAnimationFrame(drawScene);
+}
 
-
-window.onload = init;
+drawScene();
