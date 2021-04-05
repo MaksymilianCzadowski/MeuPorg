@@ -51,23 +51,23 @@ addEventListener('keyup',(e)=>{
 function processKeyboard(delta){
     let speed = 5;
     let actualSpeed = speed * delta
-    if (keyboard['z']){
+    if (keyboard['z'] || keyboard['Z']){
         controls.moveForward(actualSpeed);
     }
-    if(keyboard['s']){
+    if(keyboard['s'] || keyboard['S']){
         controls.moveForward(-actualSpeed);
     }
     if(keyboard[' ']){
         controls.getObject().position.y += actualSpeed;
     }
-    if(keyboard['c']){
+    if(keyboard['c'] || keyboard['C']){
         controls.getObject().position.y -= actualSpeed;
     }
 
-    if (keyboard['q']){
+    if (keyboard['q'] || keyboard['Q']){
         controls.moveRight(-actualSpeed);
     }
-    if(keyboard['d']){
+    if(keyboard['d'] || keyboard['D']){
         controls.moveRight(actualSpeed);
     }
 }
