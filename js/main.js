@@ -7,10 +7,30 @@ renderer.setSize(innerWidth, innerHeight);
 cam.position.z = 5;
 cam.position.y = 0;
 document.body.appendChild(renderer.domElement);
-var directionalLigths = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
-directionalLigths.position.set(0,1,0);
-directionalLigths.castShadow = true;
-scene.add(directionalLigths);
+var directionalLigths1 = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
+var directionalLigths2 = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
+var directionalLigths3 = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
+var directionalLigths4 = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
+var directionalLigths5 = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
+var directionalLigths6 = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
+directionalLigths1.position.set(-2,2,2);
+directionalLigths2.position.set(-2,2,2);
+directionalLigths3.position.set(-2,2,2);
+directionalLigths4.position.set(2,2,2);
+directionalLigths5.position.set(2,2,2);
+directionalLigths6.position.set(2,2,2);
+directionalLigths1.castShadow = false;
+directionalLigths2.castShadow = false;
+directionalLigths3.castShadow = false;
+directionalLigths4.castShadow = false;
+directionalLigths5.castShadow = false;
+directionalLigths6.castShadow = false;
+scene.add(directionalLigths1);
+scene.add(directionalLigths2)
+scene.add(directionalLigths3)
+scene.add(directionalLigths4);
+scene.add(directionalLigths5)
+scene.add(directionalLigths6)
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 //INIT THREEJS
@@ -19,13 +39,18 @@ let grid = new THREE.GridHelper(100,20, 0x0a0a0a, 0x0a0a0a);
 grid.position.set(0, -0.5, 0);
 scene.add(grid);
 
-let bGeo = new THREE.BoxGeometry(1, 1, 1);
-let bMat = new THREE.MeshStandardMaterial({color: 0x00ff00, wireframe: false});
-let cube = new THREE.Mesh(bGeo,bMat);
-scene.add(cube);
+let loader = new THREE.GLTFLoader().load('models/blasterF.glb', function(result) {
+    console.log(result)
+    scene.add(result.scene.children[0]);
+
+})
+
 
 let controls = new THREE.PointerLockControls(cam, renderer.domElement);
 let clock = new THREE.Clock();
+
+
+
 
 let btn1 = document.querySelector("#button1");
 btn1.addEventListener('click', ()=>{
