@@ -102,6 +102,7 @@ cam.add(emitter);
 var plasmaBalls = [];
 window.addEventListener("click", onClick);
 
+
 function onClick() {
     let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
         color: "black"
@@ -110,7 +111,6 @@ function onClick() {
     plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
     scene.add(plasmaBall);
     plasmaBalls.push(plasmaBall);
-
 
     playSound('sniper')
 
@@ -161,6 +161,13 @@ addEventListener('keyup', (e) => {
 });
 
 
+window.addEventListener('keyup', (event) => {
+    if (event.key== 'r') {
+        playSound('reload')
+    }
+ });
+
+
 function processKeyboard(delta) {
     let speed = 5;
     let actualSpeed = speed * delta
@@ -174,7 +181,7 @@ function processKeyboard(delta) {
     if (keyboard[' ']) {
         controls.getObject().position.y += actualSpeed;
     }
-    if (keyboard['c'] || keyboard['C']) {
+    if (keyboard['Control']) {
         controls.getObject().position.y -= actualSpeed;
     }
 
