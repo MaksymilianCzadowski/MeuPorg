@@ -4,5 +4,13 @@ body {
 }
 
 #button1{
-position: absolute;
+    color: red;
+    position: absolute;
+
+}
+#ammo{
+    position: absolute;
+}
+p.ammo{
+    padding-bottom: 100%;
 }
