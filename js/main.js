@@ -122,7 +122,7 @@ function Shoot() {
     plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
     scene.add(plasmaBall);
     plasmaBalls.push(plasmaBall);
-    playSound('sniper')
+    playSound('poom')
     ammo -= 1;
     
     }
