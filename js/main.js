@@ -210,7 +210,7 @@ function processKeyboard(delta) {
             return
         }
     }
-    if (controls.getObject().position.y >= 2){
+    if (controls.getObject().position.y >= 1){
         setTimeout(function(){ 
         controls.getObject().position.y -= 0.1 
         }, 100);
