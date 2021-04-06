@@ -3,7 +3,7 @@ var scene = new THREE.Scene();
 var cam = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({antialias: true});
 let keyboard = [];
-var speed = 500;
+var speed = 1000;
 var delta = 0;
 var SCALE = 3;
 var CursorSize = 500
@@ -47,52 +47,65 @@ var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 //INIT THREEJS
 
-var reticle = new THREE.Mesh(
-    new THREE.RingBufferGeometry( 0.85 * CursorSize, CursorSize, 32),
-    new THREE.MeshBasicMaterial( {color: 0xffffff, blending: THREE.AdditiveBlending, side: THREE.DoubleSide })
-  );
-  reticle.position.z = -3 * SCALE;
-  reticle.lookAt(cam.position)
-  cam.add(reticle);
-
 
     let grid = new THREE.GridHelper(100,20, 0x0a0a0a, 0x0a0a0a);
     grid.position.set(0, -0.5, 0);
     scene.add(grid);
    
    
-    let loader = new THREE.GLTFLoader().load('models/foamBulletA.glb', function(result) {
-        result.scene.children[0].position.set(10,1,5)
-        scene.add(result.scene.children[0]);
+    let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function(result) {
+        mesh = result.scene;
+        mesh.position.set(1, -0.5, -2);
+        mesh.rotation.y += 3.2
+        mesh.scale.set(2,2,2);
+        cam.add(mesh);
+
 })
 
+const material = new THREE.LineBasicMaterial({
+	color: "red"
+});
 
+const points = [];
+points.push( new THREE.Vector3( 0, 0, 0 ));
+points.push(new THREE.Vector3(0.1,0,0));
+points.push(new THREE.Vector3(-0.1,0,0));
+points.push( new THREE.Vector3( 0, 0, 0 ));
+points.push(new THREE.Vector3(0,0.1,0));
+points.push(new THREE.Vector3(0,-0.1,0));
+
+
+const geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+const line = new THREE.Line( geometry, material );
+scene.add( line );
+line.position.set(0,1,0)
+
+
+var emitter = new THREE.Object3D();
+        emitter.position.set(1.75, -0.6, -5.8);
+        cam.add(emitter);
+        
+    var plasmaBalls = [];
+        window.addEventListener("click", onClick);
+        
+        function onClick() {
+          let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
+            color: "black"
+          }));
+          plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
+          plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
+          scene.add(plasmaBall);
+          plasmaBalls.push(plasmaBall);
+        }
 
 /////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
 
-var weapon = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 2), new THREE.MeshBasicMaterial({
-    color: "black"
-  }));
-  weapon.position.set(2, -1, -2.5);
-  cam.add(weapon);
-  var emitter = new THREE.Object3D();
-  emitter.position.set(2, -1, -5);
-  cam.add(emitter);
 
-  var plasmaBalls = [];
-  window.addEventListener("click", onClick);
-  
-  function onClick() {
-    let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
-      color: "red"
-    }));
-    plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
-    plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
-    scene.add(plasmaBall);
-    plasmaBalls.push(plasmaBall);
-  }
+ 
 
 /////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
+
 
 let controls = new THREE.PointerLockControls(cam, renderer.domElement);
 let clock = new THREE.Clock();
