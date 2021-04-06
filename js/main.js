@@ -116,6 +116,7 @@ function onClick() {
 
 }
 function playSound(name){
+    
     const listener = new THREE.AudioListener();
     cam.add(listener);
 
@@ -185,18 +186,6 @@ function processKeyboard(delta) {
     }
 
 }
-
-// function once(a, b) {
-//     var c;
-//     return function() {
-//       if (a) {
-//         c = a.apply(b || this, arguments);
-//         a = b = null;
-//       }
-//       return c;
-//     };
-// }
-
 
 function drawScene() {
     renderer.render(scene, cam);
