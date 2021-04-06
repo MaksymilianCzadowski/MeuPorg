@@ -5,9 +5,10 @@ var renderer = new THREE.WebGLRenderer({
     antialias: true
 });
 let keyboard = [];
-var speed = 2000;
+var speed = 1500;
 var delta = 0;
 var SCALE = 3;
+var ammo = 10;
 scene.background = new THREE.Color(0xfafafa);
 renderer.setSize(innerWidth, innerHeight);
 cam.position.set(0, 1, 0);
@@ -104,10 +105,11 @@ var plasmaBalls = [];
 // window.addEventListener("click", onClick);
 window.addEventListener('mousedown', (event) => {
     if (event.button == 0) {
-        onClick();
+        Shoot();
     }
  });
-function onClick() {
+function Shoot() {
+    if (ammo > 0) {
     let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
         color: "black"
     }));
@@ -117,8 +119,20 @@ function onClick() {
     plasmaBalls.push(plasmaBall);
 
     playSound('sniper')
-
+    ammo -= 1;
+    
+    }
 }
+
+function Reload() {
+
+    if (ammo < 10) {
+        playSound('reload')
+        ammo = 10;
+        
+    }
+}
+
 function playSound(name){
     
     const listener = new THREE.AudioListener();
@@ -167,7 +181,7 @@ addEventListener('keyup', (e) => {
 
 window.addEventListener('keyup', (event) => {
     if (event.key == 'r') {
-        playSound('reload')
+        Reload()
     }
  });
 
@@ -186,7 +200,9 @@ function processKeyboard(delta) {
         controls.getObject().position.y += actualSpeed;
     }
     if (keyboard['Control']) {
+        if (cam.position.y !== 0) {
         controls.getObject().position.y -= actualSpeed;
+        }
     }
 
     if (keyboard['q'] || keyboard['Q']) {
