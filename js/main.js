@@ -100,9 +100,13 @@ emitter.position.set(1.75, -0.6, -5.8);
 cam.add(emitter);
 
 var plasmaBalls = [];
-window.addEventListener("click", onClick);
 
-
+// window.addEventListener("click", onClick);
+window.addEventListener('mousedown', (event) => {
+    if (event.button == 0) {
+        onClick();
+    }
+ });
 function onClick() {
     let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
         color: "black"
@@ -162,7 +166,7 @@ addEventListener('keyup', (e) => {
 
 
 window.addEventListener('keyup', (event) => {
-    if (event.key== 'r') {
+    if (event.key == 'r') {
         playSound('reload')
     }
  });
