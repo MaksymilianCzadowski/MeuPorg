@@ -82,15 +82,31 @@ var emitter = new THREE.Object3D();
     var plasmaBalls = [];
         window.addEventListener("click", onClick);
         
-        function onClick() {
-          let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
-            color: "black"
-          }));
-          plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
-          plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
-          scene.add(plasmaBall);
-          plasmaBalls.push(plasmaBall);
-        }
+    function onClick() {
+        let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
+        color: "black"
+    }));
+        plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
+        plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
+        scene.add(plasmaBall);
+        plasmaBalls.push(plasmaBall);
+
+
+        const listener = new THREE.AudioListener();
+            cam.add( listener );
+
+        const sound = new THREE.Audio( listener );
+
+// load a sound and set it as the Audio object's buffer
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load( 'audio/sniper.ogg', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( false );
+	sound.setVolume( 0.2 );
+	sound.play();
+});
+
+        }   
  
 
 /////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
