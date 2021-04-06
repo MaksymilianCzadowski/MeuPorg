@@ -2,13 +2,12 @@
 var scene = new THREE.Scene();
 var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: false
 });
 let keyboard = [];
-var speed = 1500;
+var speedbullet = 1000;
 var delta = 0;
-var SCALE = 3;
-var ammo = 10;
+var ammo = 10; 
 scene.background = new THREE.Color(0xfafafa);
 renderer.setSize(innerWidth, innerHeight);
 cam.position.set(0, 1, 0);
@@ -83,8 +82,14 @@ const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
 const line = new THREE.Line(geometry, material);
 cam.add(line);
-line.position.set(0, 0, -5)
+line.position.set(0, 0, -5);
 
+
+/////////////////////////////TEST COLLISION////////////////////////////////////////////////////
+
+
+
+/////////////////////////////TEST COLLISION////////////////////////////////////////////////////
 
 /////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
 let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function (result) {
@@ -117,7 +122,6 @@ function Shoot() {
     plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
     scene.add(plasmaBall);
     plasmaBalls.push(plasmaBall);
-
     playSound('sniper')
     ammo -= 1;
     
@@ -197,14 +201,20 @@ function processKeyboard(delta) {
         controls.moveForward(-actualSpeed);
     }
     if (keyboard[' ']) {
-        controls.getObject().position.y += actualSpeed;
-    }
-    if (keyboard['Control']) {
-        if (cam.position.y !== 0) {
-        controls.getObject().position.y -= actualSpeed;
+        if (controls.getObject().position.y <= 1) {
+            setTimeout(function(){ 
+                controls.getObject().position.y += 0.5; 
+                }, 100);
+            
+        }else {
+            return
         }
     }
-
+    if (controls.getObject().position.y >= 2){
+        setTimeout(function(){ 
+        controls.getObject().position.y -= 0.1 
+        }, 100);
+    }
     if (keyboard['q'] || keyboard['Q']) {
         controls.moveRight(-actualSpeed);
     }
@@ -220,7 +230,7 @@ function drawScene() {
     processKeyboard(delta);
     requestAnimationFrame(drawScene);
     plasmaBalls.forEach(b => {
-        b.translateZ(-speed * delta); // move along the local z-axis
+        b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
 }
 
