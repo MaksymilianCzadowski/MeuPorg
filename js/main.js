@@ -112,6 +112,10 @@ function onClick() {
     plasmaBalls.push(plasmaBall);
 
 
+    playSound('sniper')
+
+}
+function playSound(name){
     const listener = new THREE.AudioListener();
     cam.add(listener);
 
@@ -119,13 +123,12 @@ function onClick() {
 
     // load a sound and set it as the Audio object's buffer
     const audioLoader = new THREE.AudioLoader();
-    audioLoader.load('audio/sniper.ogg', function (buffer) {
+    audioLoader.load(('audio/'+name+'.ogg'), function (buffer) {
         sound.setBuffer(buffer);
         sound.setLoop(false);
         sound.setVolume(0.2);
         sound.play();
     });
-
 }
 
 
@@ -182,6 +185,18 @@ function processKeyboard(delta) {
     }
 
 }
+
+// function once(a, b) {
+//     var c;
+//     return function() {
+//       if (a) {
+//         c = a.apply(b || this, arguments);
+//         a = b = null;
+//       }
+//       return c;
+//     };
+// }
+
 
 function drawScene() {
     renderer.render(scene, cam);
