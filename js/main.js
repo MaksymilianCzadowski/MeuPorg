@@ -44,15 +44,6 @@ scene.add(ambientLight);
     grid.position.set(0, -0.5, 0);
     scene.add(grid);
    
-   
-    let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function(result) {
-        mesh = result.scene;
-        mesh.position.set(1, -0.5, -2);
-        mesh.rotation.y += 3.2
-        mesh.scale.set(2,2,2);
-        cam.add(mesh);
-
-})
 
 const material = new THREE.LineBasicMaterial({
 	color: "red"
@@ -74,6 +65,16 @@ cam.add( line );
 line.position.set(0,0,-5)
 
 
+/////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
+let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function(result) {
+    mesh = result.scene;
+    mesh.position.set(1, -0.5, -2);
+    mesh.rotation.y += 3.2
+    mesh.scale.set(2,2,2);
+    cam.add(mesh);
+
+})
+
 var emitter = new THREE.Object3D();
         emitter.position.set(1.75, -0.6, -5.8);
         cam.add(emitter);
@@ -90,10 +91,6 @@ var emitter = new THREE.Object3D();
           scene.add(plasmaBall);
           plasmaBalls.push(plasmaBall);
         }
-
-/////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
-
-
  
 
 /////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
