@@ -3,20 +3,12 @@ var scene = new THREE.Scene();
 var cam = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({antialias: true});
 let keyboard = [];
-var speed = 1000;
+var speed = 2000;
 var delta = 0;
 var SCALE = 3;
-var CursorSize = 500
 scene.background = new THREE.Color(0xfafafa);
 renderer.setSize(innerWidth, innerHeight);
 cam.position.set(0, 1, 0);
-var reticle = new THREE.Mesh(
-    new THREE.RingBufferGeometry( 0.85 * CursorSize, CursorSize, 32),
-    new THREE.MeshBasicMaterial( {color: 0xffffff, blending: THREE.AdditiveBlending, side: THREE.DoubleSide })
-  );
-  reticle.position.z = -3 * SCALE;
-  reticle.lookAt(cam.position)
-  cam.add(reticle);
 scene.add(cam)
 document.body.appendChild(renderer.domElement);
 var directionalLigths1 = new THREE.DirectionalLight({color : 0xffffff, intensity : 100});
@@ -78,8 +70,8 @@ points.push(new THREE.Vector3(0,-0.1,0));
 const geometry = new THREE.BufferGeometry().setFromPoints( points );
 
 const line = new THREE.Line( geometry, material );
-scene.add( line );
-line.position.set(0,1,0)
+cam.add( line );
+line.position.set(0,0,-5)
 
 
 var emitter = new THREE.Object3D();
