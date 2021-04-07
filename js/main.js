@@ -139,7 +139,7 @@ function Reload() {
     if (ammo < 10) {
         playSound('reload')
         ammo = 10;
-        template.innerHTML = ("Mun :" + ammo + "/10")
+        template.innerHTML = ("Ammo : " + ammo + "/10")
     }
 }
 
@@ -197,11 +197,11 @@ window.addEventListener('keyup', (event) => {
 
 
 function processKeyboard(delta) {
-    let speed = 5;
+    let speed = 10;
     let actualSpeed = speed * delta
 
     if (keyboard['z'] || keyboard['Z']) {
-        controls.moveForward(actualSpeed);
+            controls.moveForward(actualSpeed);
     }
     if (keyboard['s'] || keyboard['S']) {
         controls.moveForward(-actualSpeed);
