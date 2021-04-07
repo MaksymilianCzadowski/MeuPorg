@@ -10,7 +10,7 @@ var delta = 0;
 var ammo = 10;
 scene.background = new THREE.Color(0xfafafa);
 renderer.setSize(innerWidth, innerHeight);
-cam.position.set(0, 1, 0);
+cam.position.set(0, 2, 0);
 scene.add(cam)
 document.body.appendChild(renderer.domElement);
 var directionalLigths1 = new THREE.DirectionalLight({
@@ -206,7 +206,7 @@ function processKeyboard(delta) {
     if (keyboard['s'] || keyboard['S']) {
         controls.moveForward(-actualSpeed);
     }
-    if (controls.getObject().position.y == 1 || controls.getObject().position.y <= 2) {
+    if (controls.getObject().position.y == 2 || controls.getObject().position.y <= 3) {
         if (keyboard[' ']) {
             if (controls.getObject().position.y <= 2) {
                 setTimeout(function () {
@@ -218,7 +218,7 @@ function processKeyboard(delta) {
             }
         }
     }
-    if (controls.getObject().position.y >= 2) {
+    if (controls.getObject().position.y >= 3) {
         setTimeout(function () {
             controls.getObject().position.y -= 0.1
         }, 100);
