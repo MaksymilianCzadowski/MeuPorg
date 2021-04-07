@@ -1,13 +1,11 @@
 body {
     margin: 0;
     overflow: hidden;
+    z-index: 3;
 }
 
-#button1{
-    color: red;
-    position: absolute;
-
-}
 #ammo{
     position: absolute;
+    padding-left: 91%;
+    z-index: 2;
 }

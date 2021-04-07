@@ -7,7 +7,7 @@ var renderer = new THREE.WebGLRenderer({
 let keyboard = [];
 var speedbullet = 1000;
 var delta = 0;
-var ammo = 10; 
+var ammo = 10;
 scene.background = new THREE.Color(0xfafafa);
 renderer.setSize(innerWidth, innerHeight);
 cam.position.set(0, 1, 0);
@@ -57,8 +57,8 @@ scene.add(directionalLigths5)
 scene.add(directionalLigths6)
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
-var template =  document.querySelector("#ammo");
-template.innerHTML = ("Mun :"+ammo+"/10")
+var template = document.querySelector("#ammo");
+template.innerHTML = ("Mun :" + ammo + "/10")
 // (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
 //INIT THREEJS
 
@@ -115,22 +115,22 @@ window.addEventListener('mousedown', (event) => {
     if (event.button == 0) {
         Shoot();
     }
- });
+});
+
 function Shoot() {
     if (ammo > 0) {
-    let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
-        color: "black"
-    }));
-    plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
-    plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
-    scene.add(plasmaBall);
-    plasmaBalls.push(plasmaBall);
-    playSound('poom')
-    ammo -= 1;
+        let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
+            color: "black"
+        }));
+        plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
+        plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
+        scene.add(plasmaBall);
+        plasmaBalls.push(plasmaBall);
+        playSound('sniper')
+        ammo -= 1;
 
-    
-    template.innerHTML = ("Mun :"+ammo+"/10")
-    
+        template.innerHTML = ("Mun :" + ammo + "/10")
+
     }
 }
 
@@ -139,12 +139,12 @@ function Reload() {
     if (ammo < 10) {
         playSound('reload')
         ammo = 10;
-        template.innerHTML = ("Mun :"+ammo+"/10")
+        template.innerHTML = ("Mun :" + ammo + "/10")
     }
 }
 
-function playSound(name){
-    
+function playSound(name) {
+
     const listener = new THREE.AudioListener();
     cam.add(listener);
 
@@ -152,7 +152,7 @@ function playSound(name){
 
     // load a sound and set it as the Audio object's buffer
     const audioLoader = new THREE.AudioLoader();
-    audioLoader.load(('audio/'+name+'.ogg'), function (buffer) {
+    audioLoader.load(('audio/' + name + '.ogg'), function (buffer) {
         sound.setBuffer(buffer);
         sound.setLoop(false);
         sound.setVolume(0.2);
@@ -193,7 +193,7 @@ window.addEventListener('keyup', (event) => {
     if (event.key == 'r') {
         Reload()
     }
- });
+});
 
 
 function processKeyboard(delta) {
@@ -206,19 +206,21 @@ function processKeyboard(delta) {
     if (keyboard['s'] || keyboard['S']) {
         controls.moveForward(-actualSpeed);
     }
-    if (keyboard[' ']) {
-        if (controls.getObject().position.y <= 1) {
-            setTimeout(function(){ 
-                controls.getObject().position.y += 0.5; 
+    if (controls.getObject().position.y == 1 || controls.getObject().position.y <= 2) {
+        if (keyboard[' ']) {
+            if (controls.getObject().position.y <= 2) {
+                setTimeout(function () {
+                    controls.getObject().position.y += 0.5;
                 }, 100);
-            
-        }else {
-            return
+
+            } else {
+                return
+            }
         }
     }
-    if (controls.getObject().position.y >= 1){
-        setTimeout(function(){ 
-        controls.getObject().position.y -= 0.1 
+    if (controls.getObject().position.y >= 2) {
+        setTimeout(function () {
+            controls.getObject().position.y -= 0.1
         }, 100);
     }
     if (keyboard['q'] || keyboard['Q']) {
