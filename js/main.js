@@ -10,7 +10,7 @@ var delta = 0;
 var ammo = 10;
 scene.background = new THREE.Color(0xfafafa);
 renderer.setSize(innerWidth, innerHeight);
-cam.position.set(0, 2, 0);
+cam.position.set(0, 1.2, 0);
 scene.add(cam)
 document.body.appendChild(renderer.domElement);
 var directionalLigths1 = new THREE.DirectionalLight({
@@ -139,7 +139,7 @@ function Reload() {
     if (ammo < 10) {
         playSound('reload')
         ammo = 10;
-        template.innerHTML = ("Ammo : " + ammo + "/10")
+        template.innerHTML = ("Mun : " + ammo + "/10")
     }
 }
 
@@ -206,9 +206,9 @@ function processKeyboard(delta) {
     if (keyboard['s'] || keyboard['S']) {
         controls.moveForward(-actualSpeed);
     }
-    if (controls.getObject().position.y == 2 || controls.getObject().position.y <= 3) {
+    if (controls.getObject().position.y == 3 || controls.getObject().position.y <= 4) {
         if (keyboard[' ']) {
-            if (controls.getObject().position.y <= 2) {
+            if (controls.getObject().position.y <= 3) {
                 setTimeout(function () {
                     controls.getObject().position.y += 0.5;
                 }, 100);
@@ -218,9 +218,9 @@ function processKeyboard(delta) {
             }
         }
     }
-    if (controls.getObject().position.y >= 3) {
+    if (controls.getObject().position.y >= 4) {
         setTimeout(function () {
-            controls.getObject().position.y -= 0.1
+            controls.getObject().position.y -= 0.2
         }, 100);
     }
     if (keyboard['q'] || keyboard['Q']) {
