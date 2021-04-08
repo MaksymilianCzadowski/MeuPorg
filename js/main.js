@@ -1,5 +1,5 @@
 //INIT TRHEEJS
-Physijs.scripts.worker = "chandlerprall-Physijs-7a53726/physi.js"
+
 var scene = new THREE.Scene();
 var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({
