@@ -60,7 +60,6 @@ var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 var template = document.querySelector("#ammo");
 template.innerHTML = ("Mun :" + ammo + "/10")
-// (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
 //INIT THREEJS
 
 
@@ -131,6 +130,9 @@ function Shoot() {
 
         template.innerHTML = ("Mun :" + ammo + "/10")
 
+    }
+    if(ammo == 0){
+        playSound('NoAmmo')
     }
 }
 
