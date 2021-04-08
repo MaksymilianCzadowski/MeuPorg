@@ -1,11 +1,12 @@
 //INIT TRHEEJS
+Physijs.scripts.worker = "chandlerprall-Physijs-7a53726/physi.js"
 var scene = new THREE.Scene();
 var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({
     antialias: false
 });
 let keyboard = [];
-var speedbullet = 1000;
+var speedbullet = 1500;
 var delta = 0;
 var ammo = 10;
 scene.background = new THREE.Color(0xfafafa);
@@ -63,7 +64,7 @@ template.innerHTML = ("Mun :" + ammo + "/10")
 //INIT THREEJS
 
 
-let grid = new THREE.GridHelper(100, 20, 0x0a0a0a, 0x0a0a0a);
+let grid = new THREE.GridHelper(100, 100, 0x0a0a0a, 0x0a0a0a);
 grid.position.set(0, -0.5, 0);
 scene.add(grid);
 
@@ -85,12 +86,10 @@ const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
 const line = new THREE.Line(geometry, material);
 cam.add(line);
-line.position.set(0, 0, -5);
+line.position.set(0.04, 0, -5);
 
 
 /////////////////////////////TEST COLLISION////////////////////////////////////////////////////
-
-
 
 /////////////////////////////TEST COLLISION////////////////////////////////////////////////////
 
@@ -103,6 +102,7 @@ let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function (result
     cam.add(mesh);
 
 })
+
 
 var emitter = new THREE.Object3D();
 emitter.position.set(1.75, -0.6, -5.8);
