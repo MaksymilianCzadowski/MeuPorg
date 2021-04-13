@@ -1,3 +1,4 @@
+
 //INIT TRHEEJS
 
 var scene = new THREE.Scene();
@@ -67,6 +68,7 @@ let grid = new THREE.GridHelper(100, 100, 0x0a0a0a, 0x0a0a0a);
 grid.position.set(0, -0.5, 0);
 scene.add(grid);
 
+//-----------------------------shoot and reload-----------------------------
 
 const material = new THREE.LineBasicMaterial({
     color: "red"
@@ -86,13 +88,10 @@ const geometry = new THREE.BufferGeometry().setFromPoints(points);
 const line = new THREE.Line(geometry, material);
 cam.add(line);
 line.position.set(0.04, 0, -5);
+//-----------------------------affiche viseur-----------------------------
 
+//-----------------------------affiche l'arme-----------------------------
 
-/////////////////////////////TEST COLLISION////////////////////////////////////////////////////
-
-/////////////////////////////TEST COLLISION////////////////////////////////////////////////////
-
-/////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
 let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function (result) {
     mesh = result.scene;
     mesh.position.set(1, -0.5, -2);
@@ -101,7 +100,9 @@ let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function (result
     cam.add(mesh);
 
 })
+//-----------------------------l'affiche l'arme-----------------------------
 
+//-----------------------------shoot and reload-----------------------------
 
 var emitter = new THREE.Object3D();
 emitter.position.set(1.75, -0.6, -5.8);
@@ -125,46 +126,31 @@ function Shoot() {
         plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
         scene.add(plasmaBall);
         plasmaBalls.push(plasmaBall);
-        playSound('sniper')
+        playSound('sniper',cam)
         ammo -= 1;
 
         template.innerHTML = ("Mun :" + ammo + "/10")
 
     }
     if(ammo == 0){
-        playSound('NoAmmo')
+        playSound('NoAmmo', cam)
     }
 }
 
 function Reload() {
 
     if (ammo < 10) {
-        playSound('reload')
+        playSound('reload',cam)
         ammo = 10;
         template.innerHTML = ("Mun : " + ammo + "/10")
     }
 }
 
-function playSound(name) {
-
-    const listener = new THREE.AudioListener();
-    cam.add(listener);
-
-    const sound = new THREE.Audio(listener);
-
-    // load a sound and set it as the Audio object's buffer
-    const audioLoader = new THREE.AudioLoader();
-    audioLoader.load(('audio/' + name + '.ogg'), function (buffer) {
-        sound.setBuffer(buffer);
-        sound.setLoop(false);
-        sound.setVolume(0.2);
-        sound.play();
-    });
-}
 
 
-/////////////////// SHOOTER OP, MTN GO METTRE NOTRE FLINGUE ///////////////////////////////////
+//-----------------------------shoot and reload-----------------------------
 
+//-----------------------------lock cam-----------------------------
 
 let controls = new THREE.PointerLockControls(cam, renderer.domElement);
 let clock = new THREE.Clock();
@@ -181,7 +167,9 @@ controls.addEventListener('lock', () => {
 controls.addEventListener('unlock', () => {
     btn1.innerHTML = "Unlocked"
 });
+//-----------------------------lock cam-----------------------------
 
+//-----------------------------move and reload-----------------------------
 
 addEventListener('keydown', (e) => {
     keyboard[e.key] = true
@@ -233,6 +221,9 @@ function processKeyboard(delta) {
     }
 
 }
+//-----------------------------move and reload-----------------------------
+
+//-----------------------------affiche scène-----------------------------
 
 function drawScene() {
     renderer.render(scene, cam);
@@ -243,5 +234,5 @@ function drawScene() {
         b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
 }
-
+//-----------------------------affiche scène-----------------------------
 drawScene();
