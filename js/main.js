@@ -63,7 +63,7 @@ template.innerHTML = ("Mun :" + ammo + "/10")
 //INIT THREEJS
 
 
-let grid = new THREE.GridHelper(100, 100, 0x0a0a0a, 0x0a0a0a);
+let grid = new THREE.GridHelper(500, 500, 0x0a0a0a, 0x0a0a0a);
 grid.position.set(0, -0.5, 0);
 scene.add(grid);
 
@@ -85,7 +85,7 @@ const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
 const line = new THREE.Line(geometry, material);
 cam.add(line);
-line.position.set(0.04, 0, -5);
+line.position.set(-0.5, 0, -5);
 
 
 /////////////////////////////TEST COLLISION////////////////////////////////////////////////////
@@ -99,15 +99,22 @@ let loader = new THREE.GLTFLoader().load('models/blasterE.glb', function (result
     mesh.rotation.y += 3.2
     mesh.scale.set(2, 2, 2);
     cam.add(mesh);
-
 })
 
+let map = new THREE.GLTFLoader().load('models/map.glb', function (result) {
+    map = result.scene;
+    map.position.set(1, -0.5, -2);
+    map.rotation.y += 3.2
+    map.scale.set(2, 2, 2);
+    scene.add(map);
+})
 
 var emitter = new THREE.Object3D();
 emitter.position.set(1.75, -0.6, -5.8);
 cam.add(emitter);
 
 var plasmaBalls = [];
+var realBalls = [];
 
 // window.addEventListener("click", onClick);
 window.addEventListener('mousedown', (event) => {
@@ -123,6 +130,15 @@ function Shoot() {
         }));
         plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
         plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
+        scene.add(plasmaBall);
+        plasmaBalls.push(plasmaBall);
+
+        let realBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
+            opacity: 0,
+        transparent: true,
+        }));
+        realBall.position.set(0, 1.2, 1); // start position - the tip of the weapon
+        realBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
         scene.add(plasmaBall);
         plasmaBalls.push(plasmaBall);
         playSound('sniper')
@@ -240,6 +256,9 @@ function drawScene() {
     processKeyboard(delta);
     requestAnimationFrame(drawScene);
     plasmaBalls.forEach(b => {
+        b.translateZ(-speedbullet * delta); // move along the local z-axis
+    });
+    realBalls.forEach(b => {
         b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
 }
