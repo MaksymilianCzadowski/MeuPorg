@@ -1,6 +1,5 @@
 import { controls } from './main.js';
-// import { playSound } from './playsound.js';
-import { Reload } from './shoot.js';
+
 
 let keyboard = [];
 addEventListener('keydown', (e) => {
