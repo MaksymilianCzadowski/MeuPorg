@@ -1,4 +1,6 @@
-import { controls } from './main.js';
+import {
+    controls
+} from './main.js';
 
 
 let keyboard = [];
@@ -14,7 +16,7 @@ export function processKeyboard(delta) {
     let actualSpeed = speed * delta
 
     if (keyboard['z'] || keyboard['Z']) {
-            controls.moveForward(actualSpeed);
+        controls.moveForward(actualSpeed);
     }
     if (keyboard['s'] || keyboard['S']) {
         controls.moveForward(-actualSpeed);
