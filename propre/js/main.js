@@ -1,5 +1,10 @@
-import { processKeyboard } from './move.js';
-import {plasmaBalls, ammo} from './shoot.js'
+import {
+    processKeyboard
+} from './move.js';
+import {
+    plasmaBalls,
+    ammo
+} from './shoot.js'
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 export var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer({
@@ -74,11 +79,11 @@ let loader = new THREE.GLTFLoader().load('./model/blasterE.glb', function (resul
 let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
     map = result.scene;
     map.position.set(20, -0.5, 15);
-    map.scale.set(0.5,0.5,0.5)
+    map.scale.set(0.5, 0.5, 0.5)
     map.traverse((node) => {
         if (!node.isMesh) return;
         node.material.wireframe = false;
-      });
+    });
     scene.add(map)
 })
 

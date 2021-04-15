@@ -1,5 +1,12 @@
-import { emitter, cam, scene, template } from './main.js'
-import { playSound } from './playsound.js'
+import {
+    emitter,
+    cam,
+    scene,
+    template
+} from './main.js'
+import {
+    playSound
+} from './playsound.js'
 export var plasmaBalls = [];
 
 // var realBalls = [];
@@ -14,13 +21,13 @@ export function Shoot() {
         plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
         scene.add(plasmaBall);
         plasmaBalls.push(plasmaBall);
-        playSound('sniper',cam)
+        playSound('sniper', cam)
         ammo -= 1;
 
         template.innerHTML = ("Mun :" + ammo + "/10")
 
     }
-    if(ammo == 0){
+    if (ammo == 0) {
         playSound('NoAmmo', cam)
     }
 }
@@ -28,7 +35,7 @@ export function Shoot() {
 export function Reload() {
 
     if (ammo < 10) {
-        playSound('reload',cam)
+        playSound('reload', cam)
         ammo = 10;
         template.innerHTML = ("Mun : " + ammo + "/10")
     }
