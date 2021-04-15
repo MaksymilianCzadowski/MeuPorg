@@ -1,5 +1,10 @@
-import { processKeyboard } from './move.js';
-import {plasmaBalls, ammo} from './shoot.js'
+import {
+    processKeyboard
+} from './move.js';
+import {
+    plasmaBalls,
+    ammo
+} from './shoot.js'
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 export var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer({
@@ -13,6 +18,16 @@ renderer.setSize(innerWidth, innerHeight);
 cam.position.set(0, 1.2, 0);
 scene.add(cam)
 document.body.appendChild(renderer.domElement);
+
+// directionalLigths = []
+// for (let index = 0; index < 6; index++) {
+//     directionalLigths.push(new THREE.DirectionalLight({
+//         color: 0xffffff,
+//         intensity: 100,
+//         castShadow : false
+//     }));
+//      scene.add()
+// }
 var directionalLigths1 = new THREE.DirectionalLight({
     color: 0xffffff,
     intensity: 100
@@ -37,6 +52,15 @@ var directionalLigths6 = new THREE.DirectionalLight({
     color: 0xffffff,
     intensity: 100
 });
+
+// directionalLigths = []
+// array.forEach(element => {
+//     element.position.set(-2,2,2)
+// });
+// array.forEach(element => {
+//     element.position.set(2,2,2)
+// });
+
 directionalLigths1.position.set(-2, 2, 2);
 directionalLigths2.position.set(-2, 2, 2);
 directionalLigths3.position.set(-2, 2, 2);
@@ -74,11 +98,11 @@ let loader = new THREE.GLTFLoader().load('./model/blasterE.glb', function (resul
 let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
     map = result.scene;
     map.position.set(20, -0.5, 15);
-    map.scale.set(0.5,0.5,0.5)
+    map.scale.set(0.5, 0.5, 0.5)
     map.traverse((node) => {
         if (!node.isMesh) return;
         node.material.wireframe = false;
-      });
+    });
     scene.add(map)
 })
 
