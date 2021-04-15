@@ -8,7 +8,7 @@ var renderer = new THREE.WebGLRenderer({
 var speedbullet = 1500;
 export let controls = new THREE.PointerLockControls(cam, renderer.domElement);
 let clock = new THREE.Clock();
-scene.background = new THREE.Color(0xfafafa);
+scene.background = new THREE.Color(0xbfd1e5);
 renderer.setSize(innerWidth, innerHeight);
 cam.position.set(0, 1.2, 0);
 scene.add(cam)
@@ -58,8 +58,9 @@ scene.add(directionalLigths6)
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
-let grid = new THREE.GridHelper(100, 100, 0x0a0a0a, 0x0a0a0a);
+let grid = new THREE.GridHelper(500, 500, 0x0a0a0a, 0x0a0a0a);
 grid.position.set(0, -0.5, 0);
+
 scene.add(grid);
 
 let loader = new THREE.GLTFLoader().load('./model/blasterE.glb', function (result) {
@@ -69,6 +70,18 @@ let loader = new THREE.GLTFLoader().load('./model/blasterE.glb', function (resul
     loader.scale.set(2, 2, 2);
     cam.add(loader);
 })
+
+let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
+    map = result.scene;
+    map.position.set(20, -0.5, 15);
+    map.scale.set(0.5,0.5,0.5)
+    map.traverse((node) => {
+        if (!node.isMesh) return;
+        node.material.wireframe = false;
+      });
+    scene.add(map)
+})
+
 
 export var emitter = new THREE.Object3D();
 emitter.position.set(1.75, -0.6, -5.8);
@@ -85,7 +98,6 @@ points.push(new THREE.Vector3(-0.1, 0, 0));
 points.push(new THREE.Vector3(0, 0, 0));
 points.push(new THREE.Vector3(0, 0.1, 0));
 points.push(new THREE.Vector3(0, -0.1, 0));
-
 
 const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
