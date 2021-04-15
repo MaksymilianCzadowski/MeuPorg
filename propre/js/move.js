@@ -1,5 +1,7 @@
 import {
-    controls
+    controls,
+    mob,
+    cam
 } from './main.js';
 
 
@@ -45,4 +47,43 @@ export function processKeyboard(delta) {
         controls.moveRight(actualSpeed);
     }
 
+}
+
+export function deplacementMob() {
+    if (mob.position.x < cam.position.x && mob.position.z < cam.position.z) {
+        mob.position.x += 0.01
+        mob.position.z += 0.01
+    }
+    if (mob.position.x < cam.position.x && mob.position.z > cam.position.z) {
+        mob.position.x += 0.01
+        mob.position.z -= 0.01
+    }
+    if (mob.position.x > cam.position.x && mob.position.z < cam.position.z) {
+        mob.position.x -= 0.01
+        mob.position.z += 0.01
+    }
+    if (mob.position.x > cam.position.x && mob.position.z > cam.position.z) {
+        mob.position.x -= 0.01
+        mob.position.z -= 0.01
+    }
+    if (mob.position.x < cam.position.x && mob.position.z == cam.position.z) {
+        mob.position.x += 0.01
+        mob.position.z -= 0.01
+    }
+    if (mob.position.x == cam.position.x && mob.position.z < cam.position.z) {
+        mob.position.x += 0.01
+        mob.position.z -= 0.01
+    }
+    if (mob.position.x > cam.position.x && mob.position.z == cam.position.z) {
+        mob.position.x += 0.01
+        mob.position.z -= 0.01
+    }
+    if (mob.position.x == cam.position.x && mob.position.z > cam.position.z) {
+        mob.position.x += 0.01
+        mob.position.z -= 0.01
+    }
+    if (mob.position.x == cam.position.x && mob.position.z == cam.position.z) {
+        console.log("fin de déplacement")
+    }
+    mob.lookAt(cam.position.x, 0, cam.position.z)
 }

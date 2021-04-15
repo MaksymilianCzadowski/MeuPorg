@@ -1,5 +1,6 @@
 import {
-    processKeyboard
+    processKeyboard,
+    deplacementMob
 } from './move.js';
 import {
     plasmaBalls,
@@ -106,6 +107,13 @@ let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
     scene.add(map)
 })
 
+export let mob = new THREE.GLTFLoader().load('./model/tractor.glb', function (result) {
+    mob = result.scene;
+    mob.position.set(-5, 0, -5);
+    mob.rotation.y += 3.2
+    mob.scale.set(1, 1, 1);
+    scene.add(mob);
+})
 
 export var emitter = new THREE.Object3D();
 emitter.position.set(1.75, -0.6, -5.8);
@@ -152,6 +160,7 @@ function drawScene() {
     plasmaBalls.forEach(b => {
         b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
+    deplacementMob()
 }
 
 drawScene()
