@@ -107,7 +107,7 @@ let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
     scene.add(map)
 })
 
-export let mob = new THREE.GLTFLoader().load('./model/tractor.glb', function (result) {
+export let mob = new THREE.GLTFLoader().load('./model/monkey.glb', function (result) {
     mob = result.scene;
     mob.position.set(-5, 0, -5);
     mob.rotation.y += 3.2
