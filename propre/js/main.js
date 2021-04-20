@@ -1,11 +1,14 @@
 import {
-    processKeyboard,
-    deplacementMob
+    processKeyboard
 } from './move.js';
 import {
     plasmaBalls,
     ammo
 } from './shoot.js'
+import {
+    deplacementMob,
+    spawn
+} from './mob.js'
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 export var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer({
@@ -13,6 +16,7 @@ var renderer = new THREE.WebGLRenderer({
 });
 var speedbullet = 1500;
 export let controls = new THREE.PointerLockControls(cam, renderer.domElement);
+spawn();
 let clock = new THREE.Clock();
 scene.background = new THREE.Color(0xbfd1e5);
 renderer.setSize(innerWidth, innerHeight);
@@ -107,13 +111,14 @@ let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
     scene.add(map)
 })
 
-export let mob = new THREE.GLTFLoader().load('./model/monkey.glb', function (result) {
-    mob = result.scene;
-    mob.position.set(-5, 0, -5);
-    mob.rotation.y += 3.2
-    mob.scale.set(1, 1, 1);
-    scene.add(mob);
-})
+// export let mob = new THREE.GLTFLoader().load('./model/monkey.glb', function (result) {
+//     mob = result.scene;
+//     mob.position.set(-5, 0, -5);
+//     mob.rotation.y += 3.2
+//     mob.scale.set(1, 1, 1);
+//     scene.add(mob);
+// })
+
 
 export var emitter = new THREE.Object3D();
 emitter.position.set(1.75, -0.6, -5.8);
