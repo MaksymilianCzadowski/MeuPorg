@@ -24,37 +24,39 @@ export function spawn() {
 
 
 export function deplacementMob() {
+    var speedMob = 0.05
+    
     if (mob.position.x < cam.position.x && mob.position.z < cam.position.z) {
-        mob.position.x += 0.01
-        mob.position.z += 0.01
+        mob.position.x += speedMob
+        mob.position.z += speedMob
     }
     if (mob.position.x < cam.position.x && mob.position.z > cam.position.z) {
-        mob.position.x += 0.01
-        mob.position.z -= 0.01
+        mob.position.x += speedMob
+        mob.position.z -= speedMob
     }
     if (mob.position.x > cam.position.x && mob.position.z < cam.position.z) {
-        mob.position.x -= 0.01
-        mob.position.z += 0.01
+        mob.position.x -= speedMob
+        mob.position.z += speedMob
     }
     if (mob.position.x > cam.position.x && mob.position.z > cam.position.z) {
-        mob.position.x -= 0.01
-        mob.position.z -= 0.01
+        mob.position.x -= speedMob
+        mob.position.z -= speedMob
     }
     if (mob.position.x < cam.position.x && mob.position.z == cam.position.z) {
-        mob.position.x += 0.01
-        mob.position.z -= 0.01
+        mob.position.x += speedMob
+        mob.position.z -= speedMob
     }
     if (mob.position.x == cam.position.x && mob.position.z < cam.position.z) {
-        mob.position.x += 0.01
-        mob.position.z -= 0.01
+        mob.position.x += speedMob
+        mob.position.z -= speedMob
     }
     if (mob.position.x > cam.position.x && mob.position.z == cam.position.z) {
-        mob.position.x += 0.01
-        mob.position.z -= 0.01
+        mob.position.x += speedMob
+        mob.position.z -= speedMob
     }
     if (mob.position.x == cam.position.x && mob.position.z > cam.position.z) {
-        mob.position.x += 0.01
-        mob.position.z -= 0.01
+        mob.position.x += speedMob
+        mob.position.z -= speedMob
     }
     if (mob.position.x == cam.position.x && mob.position.z == cam.position.z) {
         console.log("fin de déplacement")
