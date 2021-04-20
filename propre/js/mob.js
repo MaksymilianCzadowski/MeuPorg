@@ -5,7 +5,7 @@ import {
 
 let mob;
 export function spawn() {
-    mob = new THREE.GLTFLoader().load('./model/tractor.glb', function (result) {    
+    mob = new THREE.GLTFLoader().load('./model/monkey.glb', function (result) {    
     mob = result.scene;
     mob.position.set(-5, 0, -5);
     mob.rotation.y += 3.2
