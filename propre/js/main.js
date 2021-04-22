@@ -1,33 +1,17 @@
-<<<<<<< HEAD
 import {processKeyboard} from './move.js';
-import {plasmaBalls,ammo} from './shoot.js'
+import {plasmaBalls, ammo, invisibleBalls} from './shoot.js'
 import {deplacementMob,spawn} from './mob.js'
+import {vie} from './life.js'
 
 
-let world;
+// let world;
+
+// world = new CANNON.World();
+// world.gravity.set(0, -10, 0);
+// world.broadphase = new CANNON.NaiveBroadphase();
+// world.solver.iterations = 40;
 
 
-world = new CANNON.World();
-world.gravity.set(0, -10, 0);
-world.broadphase = new CANNON.NaiveBroadphase();
-world.solver.iterations = 40;
-
-
-=======
-import {
-    processKeyboard
-} from './move.js';
-import {
-    plasmaBalls,
-    ammo
-} from './shoot.js'
-import {
-    deplacementMob,
-    spawn
-} from './mob.js'
-import {vie, lostLife} from './life.js'
-import {playSound} from './playsound.js'
->>>>>>> 60aa59d89fc0f1219da3803f850646d7f4d34fea
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 export var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer({
@@ -143,6 +127,10 @@ export var emitter = new THREE.Object3D();
 emitter.position.set(1.75, -0.6, -5.8);
 cam.add(emitter);
 
+export var emitter2 = new THREE.Object3D();
+emitter2.position.set(0.04, 0, -5);
+cam.add(emitter2);
+
 const material = new THREE.LineBasicMaterial({
     color: "red"
 });
@@ -185,6 +173,9 @@ function drawScene() {
     processKeyboard(delta);
     requestAnimationFrame(drawScene);
     plasmaBalls.forEach(b => {
+        b.translateZ(-speedbullet * delta); // move along the local z-axis
+    });
+    invisibleBalls.forEach(b => {
         b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
     deplacementMob()
