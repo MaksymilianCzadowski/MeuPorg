@@ -6,10 +6,14 @@ body {
 
 #ammo{
     position: absolute;
-    padding-left: 91%;
+    margin-left: 90%;
     z-index: 2;
 }
 
 #button1{
     position: absolute;
+}
+#life{
+    position: absolute;
+    margin-top: 50%;
 }
