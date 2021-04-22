@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {processKeyboard} from './move.js';
 import {plasmaBalls,ammo} from './shoot.js'
 import {deplacementMob,spawn} from './mob.js'
@@ -12,6 +13,21 @@ world.broadphase = new CANNON.NaiveBroadphase();
 world.solver.iterations = 40;
 
 
+=======
+import {
+    processKeyboard
+} from './move.js';
+import {
+    plasmaBalls,
+    ammo
+} from './shoot.js'
+import {
+    deplacementMob,
+    spawn
+} from './mob.js'
+import {vie, lostLife} from './life.js'
+import {playSound} from './playsound.js'
+>>>>>>> 60aa59d89fc0f1219da3803f850646d7f4d34fea
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 export var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer({
@@ -149,7 +165,7 @@ export var template = document.querySelector("#ammo");
 template.innerHTML = ("Mun :" + ammo + "/10")
 
 export var life = document.querySelector("#life");
-life.innerHTML = ("Vie :" + life + "/100")
+life.innerHTML = ("Vie :" + vie + "/100")
 
 let btn1 = document.querySelector("#button1");
 btn1.addEventListener('click', () => {
