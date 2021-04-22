@@ -1,14 +1,17 @@
-import {
-    processKeyboard
-} from './move.js';
-import {
-    plasmaBalls,
-    ammo
-} from './shoot.js'
-import {
-    deplacementMob,
-    spawn
-} from './mob.js'
+import {processKeyboard} from './move.js';
+import {plasmaBalls,ammo} from './shoot.js'
+import {deplacementMob,spawn} from './mob.js'
+
+
+let world;
+
+
+world = new CANNON.World();
+world.gravity.set(0, -10, 0);
+world.broadphase = new CANNON.NaiveBroadphase();
+world.solver.iterations = 40;
+
+
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 export var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer({
