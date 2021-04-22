@@ -145,6 +145,9 @@ line.position.set(0.04, 0, -5);
 export var template = document.querySelector("#ammo");
 template.innerHTML = ("Mun :" + ammo + "/10")
 
+export var life = document.querySelector("#life");
+life.innerHTML = ("Vie :" + life + "/100")
+
 let btn1 = document.querySelector("#button1");
 btn1.addEventListener('click', () => {
     controls.lock();

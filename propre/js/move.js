@@ -15,6 +15,7 @@ export function processKeyboard(delta) {
     let actualSpeed = speed * delta
 
     if (keyboard['z'] || keyboard['Z']) {
+        
         controls.moveForward(actualSpeed);
     }
     if (keyboard['s'] || keyboard['S']) {
