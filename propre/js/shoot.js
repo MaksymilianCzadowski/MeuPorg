@@ -1,17 +1,8 @@
-import {
-    emitter,
-    emitter2,
-    cam,
-    scene,
-    template
-} from './main.js'
-import {
-    playSound
-} from './playsound.js'
+import {emitter,emitter2,cam,scene,template} from './main.js'
+import {playSound} from './playsound.js'
 export var plasmaBalls = [];
 export var invisibleBalls = [];
-
-// var realBalls = [];
+export var invisibleBall;
 export var ammo = 10
 var invisibleammo = 10
 
@@ -28,8 +19,7 @@ export function Shoot() {
         ammo -= 1;
 
         template.innerHTML = ("Mun :" + ammo + "/10")
-        let invisibleBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
-            color,
+       let invisibleBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
             opacity: 0.5,
             transparent: true,
             

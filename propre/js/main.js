@@ -4,10 +4,7 @@ import {deplacementMob,spawn} from './mob.js'
 import {vie} from './life.js'
 
 
-let world;
-
-world = new CANNON.World();
-
+let world = new CANNON.World();
 
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 export var scene = new THREE.Scene();
