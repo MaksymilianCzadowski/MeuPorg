@@ -9,7 +9,7 @@ export function spawn() {
         mob = result.scene;
         mob.position.set(-5, 0, -5);
         mob.rotation.y += 3.2
-        mob.scale.set(1, 1, 1);
+        mob.scale.set(2.5, 2.5, 2.5);
         scene.add(mob);
         console.log(mob);    
     })
