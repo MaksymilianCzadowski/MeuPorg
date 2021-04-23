@@ -4,99 +4,113 @@ import {deplacementMob,spawn} from './mob.js'
 import {vie} from './life.js'
 
 
-
-
-// initCannon();
-
-
-
-// function initCannon(){
-//      // Setup our world
-//      world = new CANNON.World();
-//      world.quatNormalizeSkip = 0;
-//      world.quatNormalizeFast = false;
-
-//      var solver = new CANNON.GSSolver();
-
-//      world.defaultContactMaterial.contactEquationStiffness = 1e9;
-//      world.defaultContactMaterial.contactEquationRelaxation = 4;
-
-//      solver.iterations = 7;
-//      solver.tolerance = 0.1;
-//      var split = true;
-//      if(split)
-//          world.solver = new CANNON.SplitSolver(solver);
-//      else
-//          world.solver = solver;
-
-//      world.gravity.set(0,-20,0);
-//      world.broadphase = new CANNON.NaiveBroadphase();
-
-//      // Create a slippery material (friction coefficient = 0.0)
-//      physicsMaterial = new CANNON.Material("slipperyMaterial");
-//      var physicsContactMaterial = new CANNON.ContactMaterial(physicsMaterial,
-//                                                              physicsMaterial,
-//                                                              0.0, // friction coefficient
-//                                                              0.3  // restitution
-//                                                              );
-//      // We must add the contact materials to the world
-//      world.addContactMaterial(physicsContactMaterial);
-
-//      // Create a sphere (ball)
-//      var mass = 5, radius = 1.3;
-//      sphereShape = new CANNON.Sphere(radius);
-//      sphereBody = new CANNON.Body({ mass: mass });
-//      sphereBody.addShape(sphereShape);
-//      sphereBody.position.set(0,5,0);
-//      sphereBody.linearDamping = 0.9;
-//      world.add(sphereBody);
-
-//      // Create a plane
-//      var groundShape = new CANNON.Plane();
-//      var groundBody = new CANNON.Body({ mass: 0 });
-//      groundBody.addShape(groundShape);
-//      groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
-//      world.add(groundBody);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export var cam,scene,renderer,controls,emitter,emitter2,template,life,speedbullet
+export var cam,scene,renderer,controls,emitter,emitter2,template,life,speedbullet,world
 let clock
+var  physicsMaterial,sphereShape, sphereBody, walls=[], balls=[], ballMeshes=[], boxes=[], boxMeshes=[], walls=[], wallMeshes=[];
+var controls,time = Date.now();;
+
+
+var blocker = document.getElementById( 'blocker' );
+var instructions = document.getElementById( 'instructions' );
+
+var havePointerLock = 'pointerLockElement' in document;
+
+if(havePointerLock){
+
+    var element = document.body;
+
+    var pointerlockchange = function(event){
+            
+        if(document.pointerLockElement === element){
+
+                controls.enabled = true;
+
+                blocker.style.display = 'none';
+
+        }else{
+            
+            controls.enabled = false;
+
+            blocker.style.display = 'none';
+
+            instructions.style.display = '';
+        }
+    }
+    var pointerlockerror = function ( event ) {
+        instructions.style.display = '';
+    }
+    document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+
+    document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+
+    instructions.addEventListener('click', function(event){
+        instructions.style.display = 'none';
+
+        element.requestPointerLock = element.requestPointerLock
+
+        element.requestFullscreen();
+
+        
+        controls.lock();
+    }, false);
+
+
+}
+
+
+
+function initCannon(){
+     // Setup our world
+     world = new CANNON.World();
+     world.quatNormalizeSkip = 0;
+     world.quatNormalizeFast = false;
+
+     var solver = new CANNON.GSSolver();
+
+     world.defaultContactMaterial.contactEquationStiffness = 1e9;
+     world.defaultContactMaterial.contactEquationRelaxation = 4;
+
+     solver.iterations = 7;
+     solver.tolerance = 0.1;
+     var split = true;
+     if(split)
+         world.solver = new CANNON.SplitSolver(solver);
+     else
+         world.solver = solver;
+
+     world.gravity.set(0,-20,0);
+     world.broadphase = new CANNON.NaiveBroadphase();
+
+     // Create a slippery material (friction coefficient = 0.0)
+     physicsMaterial = new CANNON.Material("slipperyMaterial");
+     var physicsContactMaterial = new CANNON.ContactMaterial(physicsMaterial,
+                                                             physicsMaterial,
+                                                             0.0, // friction coefficient
+                                                             0.3  // restitution
+                                                             );
+     // We must add the contact materials to the world
+     world.addContactMaterial(physicsContactMaterial);
+
+     // Create a sphere (ball)
+     var mass = 5, radius = 1.3;
+     sphereShape = new CANNON.Sphere(radius);
+     sphereBody = new CANNON.Body({ mass: mass });
+     sphereBody.addShape(sphereShape);
+     sphereBody.position.set(0,5,0);
+     sphereBody.linearDamping = 0.9;
+     world.add(sphereBody);
+
+     // Create a plane
+     var groundShape = new CANNON.Plane();
+     var groundBody = new CANNON.Body({ mass: 0 });
+     groundBody.addShape(groundShape);
+     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
+     world.add(groundBody);
+}
 
 
 function init() {
+    
     cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({
@@ -111,7 +125,7 @@ function init() {
     cam.position.set(0, 1.2, 0);
     scene.add(cam)
     document.body.appendChild(renderer.domElement);
-
+    window.addEventListener( 'resize', onWindowResize, false );
 
     // lights
     var directionalLigths = []
@@ -133,9 +147,9 @@ function init() {
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
+    //map
     let grid = new THREE.GridHelper(500, 500, 0x0a0a0a, 0x0a0a0a);
     grid.position.set(0, -0.5, 0);
-
     scene.add(grid);
 
     let loader = new THREE.GLTFLoader().load('./model/blasterE.glb', function (result) {
@@ -157,6 +171,7 @@ function init() {
         scene.add(map)
     })
 
+    //crosshair
     emitter = new THREE.Object3D();
     emitter.position.set(1.75, -0.6, -5.8);
     cam.add(emitter);
@@ -183,23 +198,32 @@ function init() {
     cam.add(line);
     line.position.set(0.04, 0, -5);
 
+
+    //affichage
     template = document.querySelector("#ammo");
     template.innerHTML = ("Mun :" + ammo + "/10")
 
     life = document.querySelector("#life");
     life.innerHTML = ("Vie :" + vie + "/100")
 
-    let btn1 = document.querySelector("#button1");
-    btn1.addEventListener('click', () => {
-        controls.lock();
-    });
 
-    controls.addEventListener('lock', () => {
-        btn1.innerHTML = "Locked"
-    });
-    controls.addEventListener('unlock', () => {
-        btn1.innerHTML = "Unlocked"
-    });
+
+    // let btn1 = document.querySelector("#button1");
+    // btn1.addEventListener('click', () => {
+    //     controls.lock();
+    // });
+
+    // controls.addEventListener('lock', () => {
+    //     btn1.innerHTML = "Locked"
+    // });
+    // controls.addEventListener('unlock', () => {
+    //     btn1.innerHTML = "Unlocked"
+    // });
+}
+function onWindowResize() {
+    cam.aspect = window.innerWidth / window.innerHeight;
+    cam.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
 
@@ -216,5 +240,7 @@ function drawScene() {
     });
     deplacementMob()
 }
+
+initCannon();
 init();
 drawScene();

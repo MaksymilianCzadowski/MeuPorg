@@ -5,7 +5,7 @@ export var invisibleBalls = [];
 export var invisibleBall;
 export var ammo = 10
 var invisibleammo = 10
-var color;
+let color;
 
 export function Shoot() {
     if (ammo > 0 && invisibleammo > 0) {
@@ -23,6 +23,7 @@ export function Shoot() {
        let invisibleBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
             opacity: 0.5,
             transparent: true,
+            color,
             
         }));
         invisibleBall.position.copy(emitter2.getWorldPosition()); // start position - the tip of the weapon
