@@ -1,12 +1,15 @@
-import {processKeyboard} from './move.js';
+// import {processKeyboard} from './move.js';
 import {plasmaBalls, ammo, invisibleBalls} from './shoot.js'
 import {deplacementMob,spawn} from './mob.js'
 import {vie} from './life.js'
+import {moveControls} from './move.js'
+
 
 
 export var cam,scene,renderer,controls,emitter,emitter2,template,life,speedbullet,world
 let clock
 var  physicsMaterial,sphereShape, sphereBody, walls=[], balls=[], ballMeshes=[], boxes=[], boxMeshes=[], walls=[], wallMeshes=[];
+var geometry, material, mesh, wallColor;
 var controls,time = Date.now();;
 
 
@@ -47,11 +50,11 @@ if(havePointerLock){
         instructions.style.display = 'none';
 
         element.requestPointerLock = element.requestPointerLock
-
-        element.requestFullscreen();
+        // element.requestFullscreen();
+        element.requestPointerLock();
 
         
-        controls.lock();
+        
     }, false);
 
 
@@ -96,7 +99,7 @@ function initCannon(){
      sphereShape = new CANNON.Sphere(radius);
      sphereBody = new CANNON.Body({ mass: mass });
      sphereBody.addShape(sphereShape);
-     sphereBody.position.set(0,5,0);
+     sphereBody.position.set(0,1,0);
      sphereBody.linearDamping = 0.9;
      world.add(sphereBody);
 
@@ -147,10 +150,26 @@ function init() {
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
+
+
+    controls = new moveControls(cam, sphereBody);
+    scene.add(controls.getObject());
+
+
     //map
-    let grid = new THREE.GridHelper(500, 500, 0x0a0a0a, 0x0a0a0a);
-    grid.position.set(0, -0.5, 0);
-    scene.add(grid);
+    // let grid = new THREE.GridHelper(500, 500, 0x0a0a0a, 0x0a0a0a);
+    // grid.position.set(0, -0.5, 0);
+    // scene.add(grid);
+    geometry = new THREE.PlaneGeometry( 300, 300, 50, 50 );
+    geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+
+    material = new THREE.MeshLambertMaterial( { color: 0xdddddd } );
+
+    mesh = new THREE.Mesh( geometry, material );
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    scene.add( mesh );
+    
 
     let loader = new THREE.GLTFLoader().load('./model/blasterE.glb', function (result) {
         loader = result.scene;
@@ -160,16 +179,16 @@ function init() {
         cam.add(loader);
     })
 
-    let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
-        map = result.scene;
-        map.position.set(20, -0.5, 15);
-        map.scale.set(0.5, 0.5, 0.5)
-        map.traverse((node) => {
-            if (!node.isMesh) return;
-            node.material.wireframe = false;
-        });
-        scene.add(map)
-    })
+    // let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
+    //     map = result.scene;
+    //     map.position.set(20, -0.5, 15);
+    //     map.scale.set(0.5, 0.5, 0.5)
+    //     map.traverse((node) => {
+    //         if (!node.isMesh) return;
+    //         node.material.wireframe = false;
+    //     });
+    //     scene.add(map)
+    // })
 
     //crosshair
     emitter = new THREE.Object3D();
@@ -180,7 +199,7 @@ function init() {
     emitter2.position.set(0.04, 0, -5);
     cam.add(emitter2);
 
-    const material = new THREE.LineBasicMaterial({
+    const materialLine = new THREE.LineBasicMaterial({
         color: "red"
     });
 
@@ -192,13 +211,41 @@ function init() {
     points.push(new THREE.Vector3(0, 0.1, 0));
     points.push(new THREE.Vector3(0, -0.1, 0));
 
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const geometryLine = new THREE.BufferGeometry().setFromPoints(points);
 
-    const line = new THREE.Line(geometry, material);
+    const line = new THREE.Line(geometryLine, materialLine);
     cam.add(line);
     line.position.set(0.04, 0, -5);
 
-
+    //walls
+    var wall = new CANNON.Vec3(25, 5, 2);
+                var wallShape = new CANNON.Box(wall);
+                var wallGeometry = new THREE.BoxGeometry(wall.x*2,wall.y*2,wall.z*2);
+                wallColor = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
+                
+                var posX = [-0.5,-0.5,-28,27];
+                var posZ = [25,-25,0,0];
+                var posY = 5
+                
+                for(var i=0 ; i<4; i++){
+                  
+                    if(i > 1){
+                        var wall = new CANNON.Vec3(2.5, 5, 25);
+                        var wallShape = new CANNON.Box(wall);
+                        var wallGeometry = new THREE.BoxGeometry(wall.x*2,wall.y*2,wall.z*2);
+                    }
+                    var wallBody = new CANNON.Body({ mass: 1000 });
+                    wallBody.addShape(wallShape);
+                    var wallMesh = new THREE.Mesh(wallGeometry, wallColor);
+                    world.add(wallBody);
+                    scene.add(wallMesh);
+                    wallBody.position.set(posX[i],posY,posZ[i]);
+                    wallMesh.position.set(posX[i],posY,posZ[i]);
+                    wallMesh.castShadow = true;
+                    wallMesh.receiveShadow = true;
+                    walls.push(wallBody);
+                    wallMeshes.push(wallMesh);
+                }
     //affichage
     template = document.querySelector("#ammo");
     template.innerHTML = ("Mun :" + ammo + "/10")
@@ -226,12 +273,20 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-
+var dt = 1/60;
 function drawScene() {
     renderer.render(scene, cam);
     let delta = clock.getDelta();
-    processKeyboard(delta);
+    // processKeyboard(delta);
     requestAnimationFrame(drawScene);
+    if(controls.enabled){
+        world.step(dt);
+
+        for(var i = 0; i<walls.length; i++){
+            wallMeshes[i].position.copy(walls[i].position);
+            wallMeshes[i].quaternion.copy(walls[i].quaternion)
+        }
+    }
     plasmaBalls.forEach(b => {
         b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
@@ -239,6 +294,11 @@ function drawScene() {
         b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
     deplacementMob()
+
+
+    controls.update( Date.now() - time );
+    renderer.render( scene, cam );
+    time = Date.now();
 }
 
 initCannon();

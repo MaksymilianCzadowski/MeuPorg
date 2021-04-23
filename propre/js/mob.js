@@ -11,7 +11,6 @@ export function spawn() {
         mob.rotation.y += 3.2
         mob.scale.set(1, 1, 1);
         scene.add(mob);
-        console.log(mob);    
     })
 }
 
