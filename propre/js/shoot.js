@@ -17,7 +17,7 @@ var invisibleammo = 10
 
 export function Shoot() {
     if (ammo > 0 && invisibleammo > 0) {
-        let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
+        let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.5, 5, 5, 0, Math.PI * 1, 0, Math.PI * 1), new THREE.MeshBasicMaterial({
             color: "black"
         }));
         plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon

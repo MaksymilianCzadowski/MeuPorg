@@ -4,12 +4,9 @@ import {deplacementMob,spawn} from './mob.js'
 import {vie} from './life.js'
 
 
-// let world;
+let world;
 
-// world = new CANNON.World();
-// world.gravity.set(0, -10, 0);
-// world.broadphase = new CANNON.NaiveBroadphase();
-// world.solver.iterations = 40;
+world = new CANNON.World();
 
 
 export var cam = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);

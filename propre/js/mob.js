@@ -3,11 +3,11 @@ import {lostLife} from './life.js'
 import { playSound } from './playsound.js';
 let mob;
 export function spawn() {
-    mob = new THREE.GLTFLoader().load('./model/monkey.glb', function (result) {    
+    mob = new THREE.GLTFLoader().load('./model/singe.glb', function (result) {    
     mob = result.scene;
     mob.position.set(-5, 0, -5);
     mob.rotation.y += 3.2
-    mob.scale.set(1, 1, 1);
+    mob.scale.set(2.5, 2.5, 2.5);
     scene.add(mob);        
     })
 }
@@ -48,8 +48,5 @@ export function deplacementMob() {
         mob.position.z -= speedMob
     }
     
-//     if (mob.position.x == cam.position.x && mob.position.z == cam.position.z) {
-      
-// }
     mob.lookAt(cam.position.x, 0, cam.position.z)
 }
