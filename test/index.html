@@ -176,12 +176,12 @@
                 scene = new THREE.Scene();
                 scene.fog = new THREE.Fog( 0x000000, 0, 500 );
 
-                var ambient = new THREE.AmbientLight( 0x444444 );
+                var ambient = new THREE.AmbientLight( 0x222222);
                 scene.add( ambient );
 
                 light = new THREE.SpotLight( 0xffffff );
-                light.position.set( 0, 1000, 0 );
-                light.target.position.set( 0, 0, 0 );
+                light.position.set( 0, 100, 0 );
+                light.target.position.set( 20, 0, 0 );
                 if(true){
                     light.castShadow = true;
 
@@ -225,25 +225,37 @@
                 window.addEventListener( 'resize', onWindowResize, false );
 
                 // Add boxes
-                var wall = new CANNON.Vec3(25, 0.5, 2);
+                var wall = new CANNON.Vec3(25, 5, 2);
                 var wallShape = new CANNON.Box(wall);
                 var wallGeometry = new THREE.BoxGeometry(wall.x*2,wall.y*2,wall.z*2);
                 wallColor = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
+                
+                var posX = [-0.5,-0.5,-28,27];
+                var posZ = [25,-25,0,0];
+                var posY = 5
+                
+                for(var i=0 ; i<4; i++){
+                   console.log(i);
+                    if(i > 1){
+                        var wall = new CANNON.Vec3(2.5, 5, 25);
+                        var wallShape = new CANNON.Box(wall);
+                        var wallGeometry = new THREE.BoxGeometry(wall.x*2,wall.y*2,wall.z*2);
+                        console.log("bjr");
+                    }
+                    var wallBody = new CANNON.Body({ mass: 1000 });
+                    wallBody.addShape(wallShape);
+                    var wallMesh = new THREE.Mesh(wallGeometry, wallColor);
+                    world.add(wallBody);
+                    scene.add(wallMesh);
+                    wallBody.position.set(posX[i],posY,posZ[i]);
+                    wallMesh.position.set(posX[i],posY,posZ[i]);
+                    wallMesh.castShadow = true;
+                    wallMesh.receiveShadow = true;
+                    walls.push(wallBody);
+                    wallMeshes.push(wallMesh);
+                   
+                }
 
-                var x1 = 20;
-                var z1 = 20;
-                var y1 =5;
-                var wallBody = new CANNON.Body({ mass: 1000 });
-                wallBody.addShape(wallShape);
-                var wallMesh = new THREE.Mesh(wallGeometry, wallColor);
-                world.add(wallBody);
-                scene.add(wallMesh);
-                wallBody.position.set(x1,y1,z1);
-                wallMesh.position.set(x1,y1,z1);
-                wallMesh.castShadow = true;
-                wallMesh.receiveShadow = true;
-                walls.push(wallBody);
-                wallMeshes.push(wallMesh);
 
 
                 // var halfExtents = new CANNON.Vec3(1,1,1);

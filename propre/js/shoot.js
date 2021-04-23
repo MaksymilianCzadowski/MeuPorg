@@ -14,6 +14,7 @@ export var invisibleBalls = [];
 // var realBalls = [];
 export var ammo = 10
 var invisibleammo = 10
+var color;
 
 export function Shoot() {
     if (ammo > 0 && invisibleammo > 0) {
