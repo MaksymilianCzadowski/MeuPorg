@@ -1,6 +1,8 @@
-import {cam, scene} from './main.js'
+import {cam,scene, emitter, emitter2} from './main.js'
 import {lostLife} from './life.js'
 import { playSound } from './playsound.js';
+import {invisibleBalls} from './shoot.js'
+
 let mob;
 export function spawn() {
     new THREE.GLTFLoader().load('./model/singe.glb', function (result) {    

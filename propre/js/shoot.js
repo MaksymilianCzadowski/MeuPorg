@@ -1,24 +1,15 @@
-import {
-    emitter,
-    emitter2,
-    cam,
-    scene,
-    template
-} from './main.js'
-import {
-    playSound
-} from './playsound.js'
+import {emitter,emitter2,cam,scene,template} from './main.js'
+import {playSound} from './playsound.js'
 export var plasmaBalls = [];
 export var invisibleBalls = [];
-
-// var realBalls = [];
+export var invisibleBall;
 export var ammo = 10
 var invisibleammo = 10
 var color;
 
 export function Shoot() {
     if (ammo > 0 && invisibleammo > 0) {
-        let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
+        let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.5, 5, 5, 0, Math.PI * 1, 0, Math.PI * 1), new THREE.MeshBasicMaterial({
             color: "black"
         }));
         plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
@@ -29,8 +20,7 @@ export function Shoot() {
         ammo -= 1;
 
         template.innerHTML = ("Mun :" + ammo + "/10")
-        let invisibleBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
-            color,
+       let invisibleBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
             opacity: 0.5,
             transparent: true,
             
