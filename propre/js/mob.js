@@ -1,7 +1,8 @@
-import {cam,scene, emitter, emitter2} from './main.js'
+import {sphereBody,controls,scene, emitter, emitter2} from './main.js'
 import {lostLife} from './life.js'
 import { playSound } from './playsound.js';
 import {invisibleBalls} from './shoot.js'
+
 
 let mob;
 export function spawn() {
@@ -15,47 +16,47 @@ export function spawn() {
 }
 
 export function deplacementMob() {
-    var speedMob = 0.01
+    var speedMob = 0.03
     if (mob) {
-        if (mob.position.x < cam.position.x && mob.position.z < cam.position.z) {
+        if (mob.position.x < sphereBody.position.x && mob.position.z < sphereBody.position.z) {
             mob.position.x += speedMob
             mob.position.z += speedMob
         }
-        if (mob.position.x < cam.position.x && mob.position.z > cam.position.z) {
+        if (mob.position.x < sphereBody.position.x && mob.position.z > sphereBody.position.z) {
             mob.position.x += speedMob
             mob.position.z -= speedMob
         }
-        if (mob.position.x > cam.position.x && mob.position.z < cam.position.z) {
+        if (mob.position.x > sphereBody.position.x && mob.position.z < sphereBody.position.z) {
             mob.position.x -= speedMob
             mob.position.z += speedMob
         }
-        if (mob.position.x > cam.position.x && mob.position.z > cam.position.z) {
+        if (mob.position.x > sphereBody.position.x && mob.position.z > sphereBody.position.z) {
             mob.position.x -= speedMob
             mob.position.z -= speedMob
         }
-        if (mob.position.x < cam.position.x && mob.position.z == cam.position.z) {
+        if (mob.position.x < sphereBody.position.x && mob.position.z == sphereBody.position.z) {
             mob.position.x += speedMob
             mob.position.z -= speedMob
         }
-        if (mob.position.x == cam.position.x && mob.position.z < cam.position.z) {
+        if (mob.position.x == sphereBody.position.x && mob.position.z < sphereBody.position.z) {
             mob.position.x += speedMob
             mob.position.z -= speedMob
         }
-        if (mob.position.x > cam.position.x && mob.position.z == cam.position.z) {
+        if (mob.position.x > sphereBody.position.x && mob.position.z == sphereBody.position.z) {
             mob.position.x += speedMob
             mob.position.z -= speedMob
         }
-        if (mob.position.x == cam.position.x && mob.position.z > cam.position.z) {
+        if (mob.position.x == sphereBody.position.x && mob.position.z > sphereBody.position.z) {
             mob.position.x += speedMob
             mob.position.z -= speedMob
         }
 
-        mob.lookAt(cam.position.x, 0, cam.position.z)
+        mob.lookAt(sphereBody.position.x, 0, sphereBody.position.z)
     }
     
 
     
-//     if (mob.position.x == cam.position.x && mob.position.z == cam.position.z) {
+//     if (mob.position.x == sphereBody.position.x && mob.position.z == sphereBody.position.z) {
       
 // }
 

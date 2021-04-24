@@ -1,6 +1,4 @@
-// import {
-//     controls
-// } from './main.js';
+
 
 // let keyboard = [];
 // addEventListener('keydown', (e) => {
@@ -9,17 +7,18 @@
 // addEventListener('keyup', (e) => {
 //     keyboard[e.key] = false
 // });
+export var yawObject;
 
-export function moveControls(cam, cannonBody) {
+export function moveControls(camera, cannonBody) {
     var eyeYPos = 2; // eyes are 2 meters above the ground
     var velocityFactor = 1;
     var jumpVelocity = 20;
     var scope = this;
 
     var pitchObject = new THREE.Object3D();
-    pitchObject.add( cam );
+    pitchObject.add( camera );
 
-    var yawObject = new THREE.Object3D();
+    yawObject = new THREE.Object3D();
     yawObject.position.y = 2;
     yawObject.add( pitchObject );
 
@@ -159,7 +158,6 @@ export function moveControls(cam, cannonBody) {
         if ( moveBackward ){
             inputVelocity.z = velocityFactor * delta;
         }
-
         if ( moveLeft ){
             inputVelocity.x = -velocityFactor * delta;
         }
@@ -178,7 +176,8 @@ export function moveControls(cam, cannonBody) {
         // Add to the object
         velocity.x += inputVelocity.x;
         velocity.z += inputVelocity.z;
-
+        
+        // console.log(yawObject.position);
         yawObject.position.copy(cannonBody.position);
     };
 };
