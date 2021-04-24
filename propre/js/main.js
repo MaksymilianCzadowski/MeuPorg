@@ -1,4 +1,3 @@
-// import {processKeyboard} from './move.js';
 import {
     ammo,
 } from './shoot.js'
@@ -181,9 +180,6 @@ function init() {
 
 
     //map
-    // let grid = new THREE.GridHelper(500, 500, 0x0a0a0a, 0x0a0a0a);
-    // grid.position.set(0, -0.5, 0);
-    // scene.add(grid);
     geometry = new THREE.PlaneGeometry(300, 300, 50, 50);
     geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
 
@@ -205,18 +201,6 @@ function init() {
         cam.add(loader);
     })
 
-    // let map = new THREE.GLTFLoader().load('./model/maps.glb', function (result) {
-    //     map = result.scene;
-    //     map.position.set(20, -0.5, 15);
-    //     map.scale.set(0.5, 0.5, 0.5)
-    //     map.traverse((node) => {
-    //         if (!node.isMesh) return;
-    //         node.material.wireframe = false;
-    //     });
-    //     scene.add(map)
-    // })
-
-    //crosshair
     emitter = new THREE.Object3D();
     emitter.position.set(1.75, -0.6, -5.8);
     cam.add(emitter);
@@ -228,20 +212,6 @@ function init() {
     const materialLine = new THREE.LineBasicMaterial({
         color: "red"
     });
-
-    const points = [];
-    points.push(new THREE.Vector3(0, 0, 0));
-    points.push(new THREE.Vector3(0.1, 0, 0));
-    points.push(new THREE.Vector3(-0.1, 0, 0));
-    points.push(new THREE.Vector3(0, 0, 0));
-    points.push(new THREE.Vector3(0, 0.1, 0));
-    points.push(new THREE.Vector3(0, -0.1, 0));
-
-    const geometryLine = new THREE.BufferGeometry().setFromPoints(points);
-
-    const line = new THREE.Line(geometryLine, materialLine);
-    cam.add(line);
-    line.position.set(0.04, 0, -5);
 
     //walls
     var wall = new CANNON.Vec3(50, 5, 2);
@@ -283,19 +253,6 @@ function init() {
     life = document.querySelector("#life");
     life.innerHTML = ("Vie :" + vie + "/100")
 
-
-
-    // let btn1 = document.querySelector("#button1");
-    // btn1.addEventListener('click', () => {
-    //     controls.lock();
-    // });
-
-    // controls.addEventListener('lock', () => {
-    //     btn1.innerHTML = "Locked"
-    // });
-    // controls.addEventListener('unlock', () => {
-    //     btn1.innerHTML = "Unlocked"
-    // });
 }
 
 function onWindowResize() {

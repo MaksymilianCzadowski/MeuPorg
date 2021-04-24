@@ -52,11 +52,5 @@ export function deplacementMob() {
 
         mob.lookAt(sphereBody.position.x, 0, sphereBody.position.z)
     }
-    
-
-    
-//     if (mob.position.x == sphereBody.position.x && mob.position.z == sphereBody.position.z) {
-      
-// }
 
 }

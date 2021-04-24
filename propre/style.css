@@ -60,3 +60,9 @@ body {
     position: absolute;
 
 }
+
+.crosshair {
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 25%;
+}
