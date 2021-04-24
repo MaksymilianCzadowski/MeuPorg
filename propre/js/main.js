@@ -119,7 +119,7 @@ function init() {
     renderer = new THREE.WebGLRenderer({
     antialias: false
     });
-    speedbullet = 1500;
+    speedbullet = 10;
     controls = new THREE.PointerLockControls(cam, renderer.domElement);
     spawn();
     clock = new THREE.Clock();
@@ -294,7 +294,6 @@ function drawScene() {
         b.translateZ(-speedbullet * delta); // move along the local z-axis
     });
     deplacementMob()
-
 
     controls.update( Date.now() - time );
     renderer.render( scene, cam );
