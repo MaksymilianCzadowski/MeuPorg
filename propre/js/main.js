@@ -123,6 +123,8 @@ function initCannon() {
     sphereBody.linearDamping = 0.9;
     world.add(sphereBody);
 
+
+
     // Create a plane
     var groundShape = new CANNON.Plane();
     var groundBody = new CANNON.Body({
@@ -246,6 +248,23 @@ function init() {
         walls.push(wallBody);
         wallMeshes.push(wallMesh);
     }
+        // ----------------Create a monkeyBox (mob)--------------------------
+        var monkeyBox = new CANNON.Vec3(1, 1, 1);
+        var monkeyShape = new CANNON.Box(monkeyBox);
+        var monkeyBoxGeometry = new THREE.BoxGeometry(monkeyBox.x * 2, monkeyBox.y * 2, monkeyBox.z * 2);
+        monkeyBox = new CANNON.Body({
+            mass: 5,
+        });
+        var monkeyBoxColor = new THREE.MeshLambertMaterial({
+            wireframe : true
+        })
+        var monkeyBoxMesh = new THREE.Mesh(monkeyBoxGeometry, monkeyBoxColor);
+        scene.add(monkeyBoxMesh);
+        monkeyBox.addShape(monkeyShape);
+        monkeyBox.position.set(-5, 0, -5);
+        monkeyBoxMesh.position.set(-5, 0, -5)
+        monkeyBox.linearDamping = 0.9;
+        world.add(monkeyBox);
     //affichage
     template = document.querySelector("#ammo");
     template.innerHTML = ("Mun :" + ammo + "/10")
