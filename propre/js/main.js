@@ -147,7 +147,7 @@ function init() {
     controls = new THREE.PointerLockControls(cam, renderer.domElement);
     spawn();
     clock = new THREE.Clock();
-    scene.background = new THREE.Color(0xbfd1e5);
+    scene.background = new THREE.Color(0x7FD7F4);
     renderer.setSize(innerWidth, innerHeight);
 
     scene.add(cam)
@@ -156,14 +156,14 @@ function init() {
 
     // lights
     var directionalLigths = []
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < 4; index++) {
         directionalLigths.push(new THREE.DirectionalLight({
             color: 0xffffff,
             intensity: 100,
             castShadow: false,
         }));
         let directionalLigth = directionalLigths[index]
-        if (index < 3) {
+        if (index < 2) {
             directionalLigth.position.set(-2, 2, 2)
         } else {
             directionalLigth.position.set(2, 2, 2)
@@ -186,7 +186,7 @@ function init() {
     geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
 
     material = new THREE.MeshLambertMaterial({
-        color: 0xdddddd
+        color: 0x323332
     });
 
     mesh = new THREE.Mesh(geometry, material);
@@ -220,7 +220,7 @@ function init() {
     var wallShape = new CANNON.Box(wall);
     var wallGeometry = new THREE.BoxGeometry(wall.x * 2, wall.y * 2, wall.z * 2);
     wallColor = new THREE.MeshLambertMaterial({
-        color: 0xff0000
+        color: 0x171c3b
     });
 
     var posX = [-0.5, -0.5, 52, -53];

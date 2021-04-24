@@ -15,7 +15,7 @@ export function spawn() {
 }
 
 export function deplacementMob() {
-    var speedMob = 0
+    var speedMob = 0.03
     if (mob) {
         if (mob.position.x < sphereBody.position.x && mob.position.z < sphereBody.position.z) {
             mob.position.x += speedMob

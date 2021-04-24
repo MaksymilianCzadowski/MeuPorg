@@ -1,4 +1,4 @@
-import {emitter,emitter2,cam,scene,template, sphereBody, material, world, balls, ballMeshes, sphereShape} from './main.js'
+import {emitter,emitter2,cam,scene,template, sphereBody, world, balls, ballMeshes, sphereShape} from './main.js'
 import {playSound} from './playsound.js'
 export var plasmaBalls = [];
 export var ammo = 10
@@ -11,6 +11,9 @@ export function Shoot() {
             var ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32);
             var shootDirection = new THREE.Vector3();
             var shootVelo = 200;
+            var materialball = new THREE.MeshLambertMaterial({
+                color: 0xffffff
+            });
             function getShootDir(targetVec){
                 var vector = targetVec;
                 targetVec.set(0,0,1);
@@ -24,7 +27,7 @@ export function Shoot() {
                     var z = sphereBody.position.z;
                     var ballBody = new CANNON.Body({ mass: 1 });
                     ballBody.addShape(ballShape);
-                    var ballMesh = new THREE.Mesh( ballGeometry, material );
+                    var ballMesh = new THREE.Mesh( ballGeometry, materialball );
                     world.add(ballBody);
                     scene.add(ballMesh);
                     ballMesh.castShadow = true;

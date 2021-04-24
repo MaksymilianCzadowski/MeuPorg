@@ -21,7 +21,7 @@ body {
 }
 
 #blocker {
-
+    z-index: 3;
     position: absolute;
 
     width: 100%;
@@ -63,7 +63,8 @@ body {
 
 .crosshair {
     position: absolute;
-    margin-left: 50%;
+    margin-left: 49.45%;
     margin-top: 25%;
     font-size: 200%;
+    z-index: 2;
 }
