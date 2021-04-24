@@ -1,38 +1,50 @@
-import {emitter,emitter2,cam,scene,template} from './main.js'
+import {emitter,emitter2,cam,scene,template, sphereBody, material, world, balls, ballMeshes, sphereShape} from './main.js'
 import {playSound} from './playsound.js'
 export var plasmaBalls = [];
-export var invisibleBalls = [];
-export var invisibleBall;
 export var ammo = 10
 var invisibleammo = 10
 let color;
 
 export function Shoot() {
-    if (ammo > 0 && invisibleammo > 0) {
-        let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.5, 5, 5, 0, Math.PI * 1, 0, Math.PI * 1), new THREE.MeshBasicMaterial({
-            color: "black"
-        }));
-        plasmaBall.position.copy(emitter.getWorldPosition()); // start position - the tip of the weapon
-        plasmaBall.quaternion.copy(cam.quaternion); // apply camera's quaternion
-        scene.add(plasmaBall);
-        plasmaBalls.push(plasmaBall);
+    if (ammo > 0) {
+        var ballShape = new CANNON.Sphere(0.2);
+            var ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32);
+            var shootDirection = new THREE.Vector3();
+            var shootVelo = 150;
+            function getShootDir(targetVec){
+                var vector = targetVec;
+                targetVec.set(0,0,1);
+                vector.unproject(cam);
+                var ray = new THREE.Ray(sphereBody.position, vector.sub(sphereBody.position).normalize() );
+                targetVec.copy(ray.direction);
+            }
+
+                    var x = sphereBody.position.x + 0.2;
+                    var y = sphereBody.position.y + 1.3;
+                    var z = sphereBody.position.z;
+                    var ballBody = new CANNON.Body({ mass: 1 });
+                    ballBody.addShape(ballShape);
+                    var ballMesh = new THREE.Mesh( ballGeometry, material );
+                    world.add(ballBody);
+                    scene.add(ballMesh);
+                    ballMesh.castShadow = true;
+                    ballMesh.receiveShadow = true;
+                    balls.push(ballBody);
+                    ballMeshes.push(ballMesh);
+                    getShootDir(shootDirection);
+                    ballBody.velocity.set(  shootDirection.x * shootVelo,
+                                            shootDirection.y * shootVelo,
+                                            shootDirection.z * shootVelo);
+
+                    // Move the ball outside the player sphere
+                    x += shootDirection.x * (sphereShape.radius*1.02 + ballShape.radius);
+                    y += shootDirection.y * (sphereShape.radius*1.02 + ballShape.radius);
+                    z += shootDirection.z * (sphereShape.radius*1.02 + ballShape.radius);
+                    ballBody.position.set(x,y,z);
+                    ballMesh.position.set(x,y,z);
         playSound('sniper', cam)
         ammo -= 1;
-
         template.innerHTML = ("Mun :" + ammo + "/10")
-       let invisibleBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.01, 0.2), new THREE.MeshBasicMaterial({
-            opacity: 0.5,
-            transparent: true,
-            color,
-            
-        }));
-        invisibleBall.position.copy(emitter2.getWorldPosition()); // start position - the tip of the weapon
-        invisibleBall.quaternion.copy(cam.quaternion)
-        scene.add(invisibleBall);
-        invisibleBalls.push(invisibleBall);
-        invisibleammo -= 1;
-        
-
     }
     if (ammo == 0) {
         playSound('NoAmmo', cam)
@@ -60,3 +72,46 @@ window.addEventListener('mousedown', (event) => {
         Shoot();
     }
 });
+
+
+
+  // var ballShape = new CANNON.Sphere(0.2);
+            // var ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32);
+            // var shootDirection = new THREE.Vector3();
+            // var shootVelo = 15;
+            // var projector = new THREE.Projector();
+            // function getShootDir(targetVec){
+            //     var vector = targetVec;
+            //     targetVec.set(0,0,1);
+            //     projector.unprojectVector(vector, camera);
+            //     var ray = new THREE.Ray(sphereBody.position, vector.sub(sphereBody.position).normalize() );
+            //     targetVec.copy(ray.direction);
+            // }
+
+            // window.addEventListener("click",function(e){
+            //     if(controls.enabled==true){
+            //         var x = sphereBody.position.x;
+            //         var y = sphereBody.position.y;
+            //         var z = sphereBody.position.z;
+            //         var ballBody = new CANNON.Body({ mass: 1 });
+            //         ballBody.addShape(ballShape);
+            //         var ballMesh = new THREE.Mesh( ballGeometry, material );
+            //         world.add(ballBody);
+            //         scene.add(ballMesh);
+            //         ballMesh.castShadow = true;
+            //         ballMesh.receiveShadow = true;
+            //         balls.push(ballBody);
+            //         ballMeshes.push(ballMesh);
+            //         getShootDir(shootDirection);
+            //         ballBody.velocity.set(  shootDirection.x * shootVelo,
+            //                                 shootDirection.y * shootVelo,
+            //                                 shootDirection.z * shootVelo);
+
+            //         // Move the ball outside the player sphere
+            //         x += shootDirection.x * (sphereShape.radius*1.02 + ballShape.radius);
+            //         y += shootDirection.y * (sphereShape.radius*1.02 + ballShape.radius);
+            //         z += shootDirection.z * (sphereShape.radius*1.02 + ballShape.radius);
+            //         ballBody.position.set(x,y,z);
+            //         ballMesh.position.set(x,y,z);
+            //     }
+            // });
