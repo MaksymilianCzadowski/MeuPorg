@@ -1,17 +1,7 @@
-import {
-    ammo,
-} from './shoot.js'
-import {
-    deplacementMob,
-    spawn
-} from './mob.js'
-import {
-    vie
-} from './life.js'
-import {
-    moveControls
-} from './move.js'
-
+import {ammo,} from './shoot.js'
+import {deplacementMob,spawn, mob} from './mob.js'
+import {vie} from './life.js'
+import {moveControls} from './move.js'
 
 
 export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world
@@ -22,7 +12,9 @@ export var physicsMaterial, sphereShape, walls = [],
     ballMeshes = [],
     boxes = [],
     boxMeshes = [],
-    wallMeshes = [];
+    wallMeshes = [],
+    monkeyBoxBody = [],
+    monkeyBoxShape = []
 export var geometry, material, mesh, wallColor;
 var controls, time = Date.now();;
 
@@ -201,14 +193,6 @@ function init() {
         cam.add(loader);
     })
 
-    emitter = new THREE.Object3D();
-    emitter.position.set(1.75, -0.6, -5.8);
-    cam.add(emitter);
-
-    emitter2 = new THREE.Object3D();
-    emitter2.position.set(0.04, 0, -5);
-    cam.add(emitter2);
-
     const materialLine = new THREE.LineBasicMaterial({
         color: "red"
     });
@@ -246,6 +230,25 @@ function init() {
         walls.push(wallBody);
         wallMeshes.push(wallMesh);
     }
+
+      // ----------------Create a monkeyBox (mob)--------------------------
+      var monkeyBox = new CANNON.Vec3(1,1,1);
+      var monkeyShape = new CANNON.Box(monkeyBox);
+      var monkeyBoxGeometry = new THREE.BoxGeometry(monkeyBox.x * 2, monkeyBox.y * 2, monkeyBox.z * 2);
+      monkeyBox = new CANNON.Body({
+          mass: 5,
+      });
+      var monkeyBoxColor = new THREE.MeshLambertMaterial({
+          wireframe : true
+      })
+      var monkeyBoxMesh = new THREE.Mesh(monkeyBoxGeometry, monkeyBoxColor);
+      scene.add(monkeyBoxMesh);
+      monkeyBox.addShape(monkeyShape);
+      monkeyBox.position.set(-5, 0, -5);
+      monkeyBoxMesh.position.set(-5, 0, -5)
+      monkeyBox.linearDamping = 0.9;
+      world.add(monkeyBox);
+
     //affichage
     template = document.querySelector("#ammo");
     template.innerHTML = ("Mun :" + ammo + "/10")
@@ -288,7 +291,6 @@ function drawScene() {
     time = Date.now();
 
 }
-
 initCannon();
 init();
 drawScene();

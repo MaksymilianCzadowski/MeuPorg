@@ -1,9 +1,9 @@
-import {sphereBody,controls,scene, emitter, emitter2} from './main.js'
+import {sphereBody,scene} from './main.js'
 import {lostLife} from './life.js'
 import { playSound } from './playsound.js';
 
 
-let mob;
+export let mob;
 export function spawn() {
     new THREE.GLTFLoader().load('./model/singe.glb', function (result) {    
         mob = result.scene;
@@ -15,7 +15,7 @@ export function spawn() {
 }
 
 export function deplacementMob() {
-    var speedMob = 0.03
+    var speedMob = 0
     if (mob) {
         if (mob.position.x < sphereBody.position.x && mob.position.z < sphereBody.position.z) {
             mob.position.x += speedMob
@@ -52,5 +52,4 @@ export function deplacementMob() {
 
         mob.lookAt(sphereBody.position.x, 0, sphereBody.position.z)
     }
-
 }
