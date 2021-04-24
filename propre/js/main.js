@@ -3,7 +3,8 @@ import {
 } from './shoot.js'
 import {
     deplacementMob,
-    spawn
+    spawn,
+    mob
 } from './mob.js'
 import {
     vie
@@ -248,12 +249,13 @@ function init() {
         walls.push(wallBody);
         wallMeshes.push(wallMesh);
     }
-        // ----------------Create a monkeyBox (mob)--------------------------
-        var monkeyBox = new CANNON.Vec3(1, 1, 1);
+    // ----------------Create a monkeyBox (mob)--------------------------
+    if (mob){
+        var monkeyBox = new CANNON.Vec3(2.5, 4, 2.5);
         var monkeyShape = new CANNON.Box(monkeyBox);
         var monkeyBoxGeometry = new THREE.BoxGeometry(monkeyBox.x * 2, monkeyBox.y * 2, monkeyBox.z * 2);
         monkeyBox = new CANNON.Body({
-            mass: 5,
+            mass: 1000,
         });
         var monkeyBoxColor = new THREE.MeshLambertMaterial({
             wireframe : true
@@ -265,12 +267,15 @@ function init() {
         monkeyBoxMesh.position.set(-5, 0, -5)
         monkeyBox.linearDamping = 0.9;
         world.add(monkeyBox);
+
+    }
     //affichage
     template = document.querySelector("#ammo");
     template.innerHTML = ("Mun :" + ammo + "/10")
-
+    
     life = document.querySelector("#life");
     life.innerHTML = ("Vie :" + vie + "/100")
+
 
 }
 

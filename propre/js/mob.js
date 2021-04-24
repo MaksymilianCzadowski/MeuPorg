@@ -3,7 +3,7 @@ import {lostLife} from './life.js'
 import { playSound } from './playsound.js';
 
 
-let mob;
+export let mob;
 export function spawn() {
     new THREE.GLTFLoader().load('./model/singe.glb', function (result) {    
         mob = result.scene;
@@ -15,7 +15,7 @@ export function spawn() {
 }
 
 export function deplacementMob() {
-    var speedMob = 0.03
+    var speedMob = 0
     if (mob) {
         if (mob.position.x < sphereBody.position.x && mob.position.z < sphereBody.position.z) {
             mob.position.x += speedMob
