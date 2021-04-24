@@ -10,7 +10,7 @@ export function Shoot() {
         var ballShape = new CANNON.Sphere(0.2);
             var ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32);
             var shootDirection = new THREE.Vector3();
-            var shootVelo = 150;
+            var shootVelo = 200;
             function getShootDir(targetVec){
                 var vector = targetVec;
                 targetVec.set(0,0,1);
