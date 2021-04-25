@@ -18,7 +18,7 @@ import { playSound } from './playsound.js'
 
 
 
-export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world, monkeyBox
+export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world, monkeyBox, score
 export var sphereBody = []
 let clock
 export var physicsMaterial, sphereShape, walls = [],
@@ -267,9 +267,9 @@ function init() {
         sphereBody.addEventListener("collide",function(e){
             if (e.body === monkeyBox) {
                 playSound('oof', cam)
-                lostLife(50)
-                if(life <= 0) {
-                   window.onload()
+                lostLife(10)
+                if(vie <= 0) {
+                    window.onload = timedRefresh(500);
                 }
             }
         });
@@ -281,8 +281,11 @@ function init() {
     life = document.querySelector("#life");
     life.innerHTML = ("Vie :" + vie + "/100")
 
-
 }
+function timedRefresh(timeoutPeriod) {
+    setTimeout("location.reload(true);",timeoutPeriod);
+}
+
 
 
 function onWindowResize() {
