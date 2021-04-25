@@ -164,14 +164,14 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
 
     // lights
-    var directionalLigths = []
+    var directionalLigths = [];
     for (let index = 0; index < 4; index++) {
         directionalLigths.push(new THREE.DirectionalLight({
             color: 0xffffff,
             intensity: 100,
             castShadow: false,
         }));
-        let directionalLigth = directionalLigths[index]
+        let directionalLigth = directionalLigths[index];
         if (index < 2) {
             directionalLigth.position.set(-2, 2, 2)
         } else {
@@ -277,7 +277,7 @@ function init() {
                 if(vie <= 0) {
                     controls.enabled = false;
                     document.exitPointerLock();
-                    alert("Vous avez perdu, votre score est de : "+ score+ "vous êtes vraiment nul ! perso je suis jamais mort enfaite " )
+                    alert("Vous avez perdu, votre score est de : "+ score+ " vous êtes vraiment nul ! perso je suis jamais mort enfaite " )
                     window.onload = timedRefresh()
                     
                 }
