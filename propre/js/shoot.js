@@ -43,7 +43,7 @@ export function Shoot() {
                     ballMesh.position.set(x,y,z);
         playSound('sniper', cam)
         ammo -= 1;
-        template.innerHTML = ("Mun :" + ammo + "/10")
+        template.innerHTML = ("Mun : " + ammo + "/10")
     }
     if (ammo == 0) {
         playSound('NoAmmo', cam)

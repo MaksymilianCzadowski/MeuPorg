@@ -68,3 +68,7 @@ body {
     font-size: 200%;
     z-index: 2;
 }
+
+.score {
+    position: absolute;
+}

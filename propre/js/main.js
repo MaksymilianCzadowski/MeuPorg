@@ -18,8 +18,9 @@ import { playSound } from './playsound.js'
 
 
 
-export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world, monkeyBox, score
+export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world, monkeyBox, scoreTemplate
 export var sphereBody = []
+var score = 0;
 let clock
 export var physicsMaterial, sphereShape, walls = [],
     balls = [],
@@ -262,6 +263,8 @@ function init() {
                 scene.remove(mob)
                 world.remove(monkeyBox)
                 playSound('monkey_die', cam)
+                score += 10
+                scoreTemplate.innerHTML = ("Score : " + score)
             }
         });
         sphereBody.addEventListener("collide",function(e){
@@ -276,10 +279,13 @@ function init() {
 
     //affichage
     template = document.querySelector("#ammo");
-    template.innerHTML = ("Mun :" + ammo + "/10")
+    template.innerHTML = ("Mun : " + ammo + "/10")
     
     life = document.querySelector("#life");
-    life.innerHTML = ("Vie :" + vie + "/100")
+    life.innerHTML = ("Vie : " + vie + "/100")
+
+    scoreTemplate = document.querySelector("#score");
+    scoreTemplate.innerHTML = ("Score : " + score)
 
 }
 function timedRefresh(timeoutPeriod) {

@@ -6,6 +6,6 @@ export var vie = 100
 
 export function lostLife(lostPoints) {
      vie -= lostPoints
-     life.innerHTML = ("Vie :" + vie + "/100")
+     life.innerHTML = ("Vie : " + vie + "/100")
 }
 
