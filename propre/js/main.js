@@ -1,10 +1,21 @@
-import {ammo,} from './shoot.js'
-import {deplacementMob,spawn, mob} from './mob.js'
-import {vie} from './life.js'
-import {moveControls} from './move.js'
+import {
+    ammo,
+} from './shoot.js'
+import {
+    deplacementMob,
+    spawn,
+    mob
+} from './mob.js'
+import {
+    vie
+} from './life.js'
+import {
+    moveControls
+} from './move.js'
 
 
-export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world
+
+export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world, monkeyBox, monkeyBoxMesh
 export var sphereBody = []
 let clock
 export var physicsMaterial, sphereShape, walls = [],
@@ -115,6 +126,8 @@ function initCannon() {
     sphereBody.linearDamping = 0.9;
     world.add(sphereBody);
 
+
+
     // Create a plane
     var groundShape = new CANNON.Plane();
     var groundBody = new CANNON.Body({
@@ -198,7 +211,7 @@ function init() {
     });
 
     //walls
-    var wall = new CANNON.Vec3(50, 5, 2);
+    var wall = new CANNON.Vec3(50, 10, 2);
     var wallShape = new CANNON.Box(wall);
     var wallGeometry = new THREE.BoxGeometry(wall.x * 2, wall.y * 2, wall.z * 2);
     wallColor = new THREE.MeshLambertMaterial({
@@ -212,12 +225,12 @@ function init() {
     for (var i = 0; i < 4; i++) {
 
         if (i > 1) {
-            var wall = new CANNON.Vec3(2.5, 5, 50);
+            var wall = new CANNON.Vec3(2.5, 10, 50);
             var wallShape = new CANNON.Box(wall);
             var wallGeometry = new THREE.BoxGeometry(wall.x * 2, wall.y * 2, wall.z * 2);
         }
         var wallBody = new CANNON.Body({
-            mass: 1000
+            mass: 10000000
         });
         wallBody.addShape(wallShape);
         var wallMesh = new THREE.Mesh(wallGeometry, wallColor);
@@ -230,31 +243,28 @@ function init() {
         walls.push(wallBody);
         wallMeshes.push(wallMesh);
     }
-
-      // ----------------Create a monkeyBox (mob)--------------------------
-      var monkeyBox = new CANNON.Vec3(1,1,1);
-      var monkeyShape = new CANNON.Box(monkeyBox);
-      var monkeyBoxGeometry = new THREE.BoxGeometry(monkeyBox.x * 2, monkeyBox.y * 2, monkeyBox.z * 2);
-      monkeyBox = new CANNON.Body({
-          mass: 5,
-      });
-      var monkeyBoxColor = new THREE.MeshLambertMaterial({
-          wireframe : true
-      })
-      var monkeyBoxMesh = new THREE.Mesh(monkeyBoxGeometry, monkeyBoxColor);
-      scene.add(monkeyBoxMesh);
-      monkeyBox.addShape(monkeyShape);
-      monkeyBox.position.set(-5, 0, -5);
-      monkeyBoxMesh.position.set(-5, 0, -5)
-      monkeyBox.linearDamping = 0.9;
-      world.add(monkeyBox);
-
+    // ----------------Create a monkeyBox (mob)--------------------------
+        monkeyBox = new CANNON.Vec3(2.5, 4.29, 2.5);
+        var monkeyShape = new CANNON.Box(monkeyBox);
+        var monkeyBoxGeometry = new THREE.BoxGeometry(monkeyBox.x * 2, monkeyBox.y * 2, monkeyBox.z * 2);
+        monkeyBox = new CANNON.Body({
+            mass: 9,
+        });
+        var monkeyBoxColor = new THREE.MeshLambertMaterial({
+            wireframe : true
+        })
+        monkeyBoxMesh = new THREE.Mesh(monkeyBoxGeometry, monkeyBoxColor);
+        scene.add(monkeyBoxMesh);
+        monkeyBox.addShape(monkeyShape);
+        monkeyBox.linearDamping = 0.9;
+        world.add(monkeyBox);
     //affichage
     template = document.querySelector("#ammo");
     template.innerHTML = ("Mun :" + ammo + "/10")
-
+    
     life = document.querySelector("#life");
     life.innerHTML = ("Vie :" + vie + "/100")
+
 
 }
 

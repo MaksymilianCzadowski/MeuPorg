@@ -1,9 +1,7 @@
-import {emitter,emitter2,cam,scene,template, sphereBody, world, balls, ballMeshes, sphereShape} from './main.js'
+import {cam,scene,template, sphereBody, world, balls, ballMeshes, sphereShape} from './main.js'
 import {playSound} from './playsound.js'
 export var plasmaBalls = [];
 export var ammo = 10
-var invisibleammo = 10
-let color;
 
 export function Shoot() {
     if (ammo > 0) {
@@ -21,7 +19,6 @@ export function Shoot() {
                 var ray = new THREE.Ray(sphereBody.position, vector.sub(sphereBody.position).normalize() );
                 targetVec.copy(ray.direction);
             }
-
                     var x = sphereBody.position.x + 0.2;
                     var y = sphereBody.position.y + 1.3;
                     var z = sphereBody.position.z;
@@ -45,7 +42,7 @@ export function Shoot() {
                     z += shootDirection.z * (sphereShape.radius*1.02 + ballShape.radius);
                     ballBody.position.set(x,y,z);
                     ballMesh.position.set(x,y,z);
-        playSound('sniper', cam)
+        // playSound('sniper', cam)
         ammo -= 1;
         template.innerHTML = ("Mun :" + ammo + "/10")
     }
@@ -56,9 +53,9 @@ export function Shoot() {
 
 export function Reload() {
 
-    if (ammo < 10) {
+    if (ammo < 100) {
         playSound('reload', cam)
-        ammo = 10;
+        ammo = 1000;
         invisibleammo = 10
         template.innerHTML = ("Mun : " + ammo + "/10")
     }

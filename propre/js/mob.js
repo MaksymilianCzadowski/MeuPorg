@@ -1,4 +1,4 @@
-import {sphereBody,scene} from './main.js'
+import {sphereBody,scene, monkeyBox, monkeyBoxMesh} from './main.js'
 import {lostLife} from './life.js'
 import { playSound } from './playsound.js';
 
@@ -15,7 +15,7 @@ export function spawn() {
 }
 
 export function deplacementMob() {
-    var speedMob = 0
+    var speedMob = 0.03
     if (mob) {
         if (mob.position.x < sphereBody.position.x && mob.position.z < sphereBody.position.z) {
             mob.position.x += speedMob
@@ -49,7 +49,8 @@ export function deplacementMob() {
             mob.position.x += speedMob
             mob.position.z -= speedMob
         }
-
         mob.lookAt(sphereBody.position.x, 0, sphereBody.position.z)
+        monkeyBox.position.set(mob.position.x, mob.position.y, mob.position.z);
+        monkeyBoxMesh.position.set(mob.position.x, mob.position.y, mob.position.z)
     }
 }
