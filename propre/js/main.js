@@ -276,6 +276,7 @@ function init() {
                 lostLife(10)
                 if(vie <= 0) {
                     window.onload = timedRefresh(500);
+
                 }
             }
         });
