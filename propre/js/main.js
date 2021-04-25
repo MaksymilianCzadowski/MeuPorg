@@ -220,7 +220,7 @@ function init() {
 
     var posX = [-0.5, -0.5, 52, -53];
     var posZ = [50, -50, 0, 0];
-    var posY = 5
+    var posY = 10
 
     for (var i = 0; i < 4; i++) {
 
