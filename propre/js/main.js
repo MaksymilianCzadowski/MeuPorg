@@ -5,7 +5,8 @@ import {
 import {
     deplacementMob,
     spawn,
-    mob
+    mob,
+    getRndInteger
 } from './mob.js'
 import {
     lostLife,
@@ -264,7 +265,9 @@ function init() {
                 world.remove(monkeyBox)
                 playSound('monkey_die', cam)
                 score += 10
-                scoreTemplate.innerHTML = ("Score : " + score)
+                scoreTemplate.innerHTML = ("Score : " + score);
+                spawn()
+                world.add(monkeyBox);
             }
         });
         sphereBody.addEventListener("collide",function(e){

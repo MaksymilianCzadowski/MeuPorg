@@ -67,6 +67,7 @@ body {
     margin-top: 25%;
     font-size: 200%;
     z-index: 2;
+    color: red;
 }
 
 .score {
