@@ -1,5 +1,6 @@
 import {
     ammo,
+    ballBody
 } from './shoot.js'
 import {
     deplacementMob,
@@ -7,15 +8,17 @@ import {
     mob
 } from './mob.js'
 import {
+    lostLife,
     vie
 } from './life.js'
 import {
     moveControls
 } from './move.js'
+import { playSound } from './playsound.js'
 
 
 
-export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world, monkeyBox, monkeyBoxMesh
+export var cam, scene, renderer, controls, emitter, emitter2, template, life, speedbullet, world, monkeyBox
 export var sphereBody = []
 let clock
 export var physicsMaterial, sphereShape, walls = [],
@@ -34,6 +37,7 @@ var blocker = document.getElementById('blocker');
 var instructions = document.getElementById('instructions');
 
 var havePointerLock = 'pointerLockElement' in document;
+
 
 if (havePointerLock) {
 
@@ -244,20 +248,32 @@ function init() {
         wallMeshes.push(wallMesh);
     }
     // ----------------Create a monkeyBox (mob)--------------------------
-        monkeyBox = new CANNON.Vec3(2.5, 4.29, 2.5);
+        monkeyBox = new CANNON.Vec3(2.5, 2, 2.5);
         var monkeyShape = new CANNON.Box(monkeyBox);
-        var monkeyBoxGeometry = new THREE.BoxGeometry(monkeyBox.x * 2, monkeyBox.y * 2, monkeyBox.z * 2);
         monkeyBox = new CANNON.Body({
-            mass: 9,
+            mass: 10,
         });
-        var monkeyBoxColor = new THREE.MeshLambertMaterial({
-            wireframe : true
-        })
-        monkeyBoxMesh = new THREE.Mesh(monkeyBoxGeometry, monkeyBoxColor);
-        scene.add(monkeyBoxMesh);
         monkeyBox.addShape(monkeyShape);
         monkeyBox.linearDamping = 0.9;
         world.add(monkeyBox);
+
+        monkeyBox.addEventListener("collide",function(e){
+            if (e.body === ballBody) {
+                scene.remove(mob)
+                world.remove(monkeyBox)
+                playSound('monkey_die', cam)
+            }
+        });
+        sphereBody.addEventListener("collide",function(e){
+            if (e.body === monkeyBox) {
+                playSound('oof', cam)
+                lostLife(50)
+                if(life <= 0) {
+                   window.onload()
+                }
+            }
+        });
+
     //affichage
     template = document.querySelector("#ammo");
     template.innerHTML = ("Mun :" + ammo + "/10")
@@ -267,6 +283,7 @@ function init() {
 
 
 }
+
 
 function onWindowResize() {
     cam.aspect = window.innerWidth / window.innerHeight;

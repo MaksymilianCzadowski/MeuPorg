@@ -1,8 +1,7 @@
 import {cam,scene,template, sphereBody, world, balls, ballMeshes, sphereShape} from './main.js'
 import {playSound} from './playsound.js'
-export var plasmaBalls = [];
 export var ammo = 10
-
+export var ballBody
 export function Shoot() {
     if (ammo > 0) {
         var ballShape = new CANNON.Sphere(0.2);
@@ -22,7 +21,7 @@ export function Shoot() {
                     var x = sphereBody.position.x + 0.2;
                     var y = sphereBody.position.y + 1.3;
                     var z = sphereBody.position.z;
-                    var ballBody = new CANNON.Body({ mass: 1 });
+                    ballBody = new CANNON.Body({ mass: 1 });
                     ballBody.addShape(ballShape);
                     var ballMesh = new THREE.Mesh( ballGeometry, materialball );
                     world.add(ballBody);
@@ -42,21 +41,24 @@ export function Shoot() {
                     z += shootDirection.z * (sphereShape.radius*1.02 + ballShape.radius);
                     ballBody.position.set(x,y,z);
                     ballMesh.position.set(x,y,z);
-        // playSound('sniper', cam)
+        playSound('sniper', cam)
         ammo -= 1;
         template.innerHTML = ("Mun :" + ammo + "/10")
     }
     if (ammo == 0) {
         playSound('NoAmmo', cam)
     }
+    ballBody.addEventListener("collide",function(e) {
+        scene.remove(ballMeshes, ballMesh)
+        world.remove(ballBody)
+    })
 }
 
 export function Reload() {
 
-    if (ammo < 100) {
+    if (ammo < 10) {
         playSound('reload', cam)
-        ammo = 1000;
-        invisibleammo = 10
+        ammo = 10;
         template.innerHTML = ("Mun : " + ammo + "/10")
     }
 }
