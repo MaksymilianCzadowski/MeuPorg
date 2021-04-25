@@ -275,7 +275,11 @@ function init() {
                 playSound('oof', cam)
                 lostLife(10)
                 if(vie <= 0) {
-                    window.onload = timedRefresh(500);
+                    controls.enabled = false;
+                    document.exitPointerLock();
+                    alert("Vous avez perdu, votre score est de : "+ score+ "vous êtes vraiment nul ! perso je suis jamais mort enfaite " )
+                    window.onload = timedRefresh()
+                    
                 }
             }
         });
