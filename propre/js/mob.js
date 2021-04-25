@@ -22,7 +22,7 @@ export function deplacementMob() {
             mob.position.z += speedMob
         }
         if (mob.position.x < sphereBody.position.x && mob.position.z > sphereBody.position.z) {
-            mob.position.x += speedMo5
+            mob.position.x += speedMob
             mob.position.z -= speedMob
         }
         if (mob.position.x > sphereBody.position.x && mob.position.z < sphereBody.position.z) {
