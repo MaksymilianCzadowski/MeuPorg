@@ -274,7 +274,7 @@ function init() {
             if (e.body === monkeyBox) {
                 playSound('oof', cam)
                 lostLife(10)
-                if(vie <= 0) {
+                if(vie < 0) {
                     controls.enabled = false;
                     document.exitPointerLock();
                     alert("Vous avez perdu, votre score est de : "+ score+ " vous êtes vraiment nul ! perso je suis jamais mort enfaite " )
