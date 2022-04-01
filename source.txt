@@ -1,0 +1,6 @@
+https://threejs.org/
+https://schteppe.github.io/cannon.js/docs/
+https://tympanus.net/codrops/2019/12/10/building-a-physics-based-3d-menu-with-cannon-js-and-three-js/
+https://sbcode.net/threejs/physics-cannonjs/
+https://www.youtube.com/user/xSaucecode
+https://www.youtube.com/watch?v=5bc9AN87QtM
