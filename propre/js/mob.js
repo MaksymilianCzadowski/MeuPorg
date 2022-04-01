@@ -1,6 +1,4 @@
 import {sphereBody,scene, monkeyBox} from './main.js'
-import {lostLife} from './life.js'
-import { playSound } from './playsound.js';
 export let mob;
 export function spawn() {
     var x = getRndInteger(-40,40);

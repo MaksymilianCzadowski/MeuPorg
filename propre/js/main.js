@@ -87,7 +87,6 @@ if (havePointerLock) {
 }
 
 
-
 function initCannon() {
     // Setup our world
     world = new CANNON.World();
